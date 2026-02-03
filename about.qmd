@@ -2,8 +2,6 @@
 title: "About"
 ---
 
-About this site
+I grew up in Tucson, Arizona and moved to Santa Cruz, California to attend school at the University of California Santa Cruz (UCSC). After one year—which included declaring feminist studies as my major and flunking out of calculus—I dropped out, unsure what I wanted to do with my life. I worked as a store manager and then later as an executive assistant before deciding to start my own business doing website design and search engine optimization (SEO). In 2017, I also started fostering cats with my boyfriend (now husband). I very quickly became enamored by the medical side of animal rescue, but felt like school was not an option after my first attempt. But, in 2022, my husband sat me down and said "Sequoia, it's time to reconsider going back to school." I quickly brushed this off but he insisted that "people don't read vet textbooks for fun." *That was a pretty good point...* So I decided to go back to school to become a veterinarian. After working at a high volume spay and neuter clinic, interning at the local shelter, volunteering with spay-and-neuter clinics, and shadowing vets in other areas, I amassed an impressive amount of veterinary hours (in the thousands), and decided that my passion was community and shelter medicine.
 
-```{r}
-1 + 1
-```
+I am incredibly proud to say that this year, I was accepted to vet school and will be starting in the fall of 2026.
