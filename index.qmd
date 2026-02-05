@@ -1,11 +1,39 @@
 ---
-title: "sequoia-fellenbaum-portfolio"
+title: "Sequoia Fellenbaum"
+about:
+  template: jolla
+  image: sequoia-fellenbaum-photo.png
+  links:
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/sequoia-craig-881a142a4/
+    - icon: github
+      text: Github
+      href: https://github.com/sefell
 ---
 
-This is a Quarto website.
+Sequoia Fellenbaum is a biology student at [California State University, Monterey Bay](http://csumb.edu/).
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+## Education
 
-```{r}
-1 + 1
-```
+California State University Monterey Bay | Seaside, CA | 
+2025 - present
+
+Cabrillo College | Santa Cruz, CA | 
+A.S. in Chemistry and Biology | 2022 - 2025
+
+## Experience
+
+Santa Cruz County Animal Shelter | Clinic Intern | May 2024 - present
+
+Sequoia Craig Design | Owner | April 2020 - present
+
+Four Paws To Love | Assistant Foster Care Coordinator | June 2018 - present
+
+Friends of Watsonville Animal Shelter | Veterinary Assistant | January 2024 - June 2024
+
+## Certifications and Licenses
+
+Veterinary Assistant Controlled Substance Permit (#13640)
+
+Fear Free Certification
