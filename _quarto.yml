@@ -11,7 +11,7 @@ website:
       - href: about.qmd
       text: "About"      
       - href: Land-To-Sea.qmd
-      text: "Land To Sea"
+      text: "Land To Sea Analysis"
 
 format:
   html:
