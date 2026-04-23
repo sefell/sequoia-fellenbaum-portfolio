@@ -9,9 +9,9 @@ website:
       - href: index.qmd
         text: "Home"
       - href: about.qmd
-      text: "About"      
+        text: "About"      
       - href: Land-To-Sea.qmd
-      text: "Land To Sea Analysis"
+        text: "Land To Sea Analysis"
 
 format:
   html:
