@@ -7,8 +7,11 @@ website:
   navbar:
     left:
       - href: index.qmd
-        text: Home
-      - about.qmd
+        text: "Home"
+      - href: about.qmd
+      text: "About"      
+      - href: Land-To-Sea.qmd
+      text: "Land to Sea"
 
 format:
   html:
