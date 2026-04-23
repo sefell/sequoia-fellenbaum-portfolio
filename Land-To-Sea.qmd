@@ -1,0 +1,586 @@
+---
+title: "Deworming Protocol Analysis SCCAS"
+author: "Sequoia Fellenbaum"
+format: html
+echo: false
+warning: false
+output:
+  html_document:
+    self_contained: true
+---
+
+```{r}
+#| label: setup
+#| include: false
+
+library (tidyverse)
+library (naniar)
+library("googlesheets4")
+library(gt)
+library(gtsummary)
+
+```
+
+```{r}
+#| label: read-in-sheets
+#| include: false
+
+parasites_google <- read_sheet("https://docs.google.com/spreadsheets/d/1_D_1uIb8q3YWYgjvfU5YaZlKYobkUJ53KPPYT4esKig/edit?usp=sharing",
+                               col_types = "ccDDnDccclcllcclllllDDDDDDn",
+                               na = c("<NA>", "na", "NA"))
+
+```
+
+```{r}
+#| label: clean-names-of-sheets-version
+#| include: false
+
+parasites_google_clean <- janitor::clean_names(parasites_google)
+
+```
+
+
+## Background - The Study
+
+Land To Sea is an extension of a previous research study investigating the presence of *toxoplasma gondii* in Monterey Bay.  The study has been picked up again by grad students at UC Davis.  Cats are the definitive host for *toxoplasma gondii*, which is shed via oocytes in their feces.  The feces may be consumed directly or the oocytes can travel through the waterway to food sources, finding their way to various animals including otters and cows.  The Land To Sea study is investigating the connections between these animals by looking at the waterway in conjunction with animals.  The original study publication can be viewed <a href="https://pubmed.ncbi.nlm.nih.gov/27456911/">here</a>.
+
+The lifecycle of toxoplasmosis is illustrated in Image 1 and Image 2.
+
+![Image 1. The lifecycle of toxoplasmosis. (<a href = "https://www.vet.cornell.edu/departments-centers-and-institutes/cornell-feline-health-center/health-information/feline-health-topics/toxoplasmosis-cats">Cornell</a>)](Photos/toxoplasmosis_lifecycle_cornell.jpg)
+
+![Image 2. The lifecycle of toxoplasmosis and waterways. (<a href = "https://www.forbes.com/sites/grrlscientist/2019/08/28/whats-killing-californias-sea-otters/">Forbes</a>)](Photos/toxoplasmosis_lifecycle_forbes.jpg)
+
+The Santa Cruz County Animal Shelter (SCCAS) is involved in the study by providing fecal samples of cats that meet certain criteria.  Samples must come from cats of eight weeks of age or older and have spent time outdoors.  Feral/unsocial cats are more likely to have spent more time outdoors, so stray/found cats are preferred over those that were surrendered.
+
+The fecal samples included in this sample were analyzed by the UC Davis lab via fecal flotation and microscopic analysis.  Entirely separate from the Land To Sea study, the provided results were analyzed with the intention of evaluating the current SCCAS deworming protocol.  The following is that analysis.
+
+
+## Background - Parasites
+
+#### Testing
+
+Each cat's fecal float was analyzed for four things:
+
+| Analysis | Description | Image | 
+| --- | --- | --- |
+| Cystoisospora felis (Coccidia) | Protozoan | ![*cystoisospora felis* oocysts(<a href = "https://wcvm.usask.ca/learnaboutparasites/parasites/isospora-species.php">source</a>)](Photos/cystoisospora_felis.jpg) | 
+| Toxocara (Roundworms) | Nematode | ![*toxocara cati* oocytes(<a href = "https://wcvm.usask.ca/learnaboutparasites/parasites/toxocara-cati.php">source</a>)](Photos/toxocara_oocytes.jpg) | 
+| Toxoplasma | Protozoan | ![*toxoplasma gondii* oocyst(<a href = "https://www.parasite-diagnosis.ch/parasites/Toxoplasma-gondii.html">source</a>)](Photos/toxoplasma_oocyst.jpg) | 
+| Sarco-like | Sarcocystis-like sporocysts, no confirmed species | ![sarco-like](Photos/sarco-like.png) | 
+
+**Sarco-like is not a specific parasite so it was left out of this analysis.  In the 56 cases analyzed here, none had toxoplasma so it was also left out of this analysis.**
+
+#### Relevant Dewormers
+
+Nemex (pyrantel) is effective against roundworms and hookworms.  Among the parasites tested for in this study, Nemex is only effective against toxocara (roundworms).  This should be repeated every 2-3 weeks until 8-12 weeks of age.
+
+Ponazuril is effective against coccidia.  It should be given at 2-3 weeks of age and repeated once after 7-14 days.
+
+| Dewormer | Effective Against (*involved in this study*) | SCCAS Intake Protocol |
+| ----      | ------ | ----| 
+| Nemex (pyrantel) | *roundworms*, hookworms | - age 2-16 weeks: give at intake, then two weeks after intake, repeated every 4 weeks until 16 weeks of age - >16 weeks: give at intake, then two weeks after intake |
+| Ponazuril | *coccidia* | 2-12 weeks: give once at intake | 
+| Fenbendazole (panacur) | *roundworms*, hookworms, whipworms, some tapeworms, and Giardia | not used prophylactically |
+
+<a href = "https://sheltermedicine.wisc.edu/library/resources/intestinal-parasite-control-guidelines">Shelter Medicine Parasite Guidelines</a>
+
+
+
+
+```{r}
+#| label: cleanup
+
+parasites_google_clean <- parasites_google_clean |> 
+  rowwise() |> 
+  mutate(nemex_dose_number = sum(!is.na(c_across(nemex_1:nemex_3))),
+         ponazuril_dose_number = sum(!is.na(c_across(ponazuril_1:ponazuril_2))),
+         panacur_dose_number = sum(!is.na(panacur_1))) |> 
+  ungroup() |> 
+  select(a_id, collection_date, age_at_collection_yrs, sn_at_collection, sex, health_status, surrendered, temperament, toxocara_roundworms, cystoisospora_felis_coccidia, sarco_like, toxoplasma, parasite, nemex_dose_number, ponazuril_dose_number, panacur_dose_number) |> 
+ mutate(age_group = case_when(
+      age_at_collection_yrs >= 0.5 ~ "Adult (> 6 months)",
+      age_at_collection_yrs < 0.5 & age_at_collection_yrs > 0.2 ~ "Juvenile (3-6 months)",
+      age_at_collection_yrs <= 0.2 ~ "Kitten (< 3 months)"
+    ))  |> #added an age group variable and grouped the cats by age
+  filter(!is.na(toxocara_roundworms)) #do not include cases without results
+
+write_csv(parasites_google_clean, file = "Data/parasites_google_clean.csv")
+
+```
+
+
+
+## Sample Demographics & Overview
+
+This sample includes 56 cats from the Santa Cruz County Animal Shelter.
+
+
+```{r}
+#| label: sample-summarize-functions
+
+
+# bar chart function 
+
+sample_summarize_bar_chart <- function(data, x) { #include data
+  data |>
+  group_by({{x}}) |> 
+ mutate(sn_at_collection = replace_na({{x}}, "Unknown")) |> 
+  ggplot(mapping = aes({{x}}, fill = {{x}})) +
+  geom_bar() +
+    scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb") +
+  guides(fill = "none") +
+  theme_bw() +
+  scale_x_discrete(drop = FALSE) +
+    geom_text(stat = "count", aes(label = after_stat(count)), vjust = -0.5)
+}
+
+
+
+
+```
+
+### Age
+
+The average age of the cats sampled was 1.77 years.  The median age of the cats sampled was 1.10 years.
+
+```{r}
+#| label: sample-overview-age
+
+
+parasites_google_clean |> 
+  summarize(
+    "Average Age (years)" = mean(age_at_collection_yrs, na.rm = TRUE),
+    "Median Age (years)" = median (age_at_collection_yrs, na.rm = TRUE)
+  ) |> 
+  gt()
+
+
+```
+
+The adult age group was made up of cats over six months of age.  The juvenile age group included cats between three and six months of age.  Cats under three months were considered kittens.  All ages were based on the cat's age at the date and time of collection.
+
+The sample included 43 adult cats (76.8%), 10 juvenile cats (17.9%), 3 cats of unknown age (5.4%), and 0 kittens (0.00%).
+
+```{r}
+#| label: sample-overview-age-group
+
+total <- 56
+
+parasites_google_clean |> 
+  group_by(age_group) |> 
+summarize(
+    Total = n(),
+    Proportion = n()/total
+  ) |> 
+  rename("Age Group" = age_group) |> 
+  gt()
+
+sample_summarize_bar_chart(parasites_google_clean, age_group) + 
+  labs(
+    title = "Age Groups of Sample at Collection",
+    x = "Age Group"
+  ) 
+
+```
+
+### Spay/Neuter Status & Sex
+
+Of the cats sampled, 62.5% were altered (spayed/neutered, "fixed") (N = 35) while 26.8% were intact (N = 15).  The sample also included 10.7% of cats with unknown spay/neuter status (N = 6).
+
+```{r}
+#| label: sample-overview-spay-neuter
+
+parasites_google_clean |> 
+  group_by(sn_at_collection) |> 
+ mutate(sn_at_collection = replace_na(sn_at_collection, "Unknown")) |> 
+summarize(
+    Total = n(),
+     Proportion = n()/total
+  ) |> 
+  rename("Spayed/Neutered (Fixed) or Intact" = sn_at_collection) |> 
+  gt()
+
+sample_summarize_bar_chart(parasites_google_clean, sn_at_collection) + 
+  labs(
+    title = "Spay/Neuter Status of Sample at Collection",
+    x = "Spay/Neuter Status"
+  )
+
+```
+
+The sample included 26 spayed females, 11 females, 11 neutered males, 4 males, and 4 unknown cats.  
+
+```{r}
+#| label: sample-overview-sex
+
+
+parasites_google_clean |> 
+mutate(sex = fct_collapse(sex,
+                          spayed_female = c("spayed_female", "Spayed Female"),
+                          female = c("female", "Female"),
+                          male = c("male", "Male"),
+                          neutered_male = c("Neutered Male", "neutered_male"))) |> 
+ group_by (sex) |> 
+  summarize (    Total = n(),
+     Proportion = n()/total) |> 
+  gt()
+
+sample_summarize_bar_chart(parasites_google_clean, sex) + 
+  labs(
+    title = "Sex of Sample at Collection",
+    x = "Sex"
+  ) 
+
+```
+
+### Surrendered Status
+
+The vast majority of the cats in the sample were not surrendered (76.8%, N = 43).  These cats were typically stray.  The remaining cats were surrendered to the animal shelter by an owner (23.2%, N = 13).
+
+```{r}
+#| label: sample-overview-surrendered
+
+parasites_google_clean |> 
+  group_by(surrendered) |> 
+   summarize (    Total = n(),
+     Proportion = n()/total) |> 
+  gt()
+
+sample_summarize_bar_chart(parasites_google_clean, surrendered) + 
+  labs(
+    title = "Surrendered Status of Sample at Collection",
+    x = "Surrendered Status"
+  ) 
+
+```
+
+### Temperament
+
+Of the 56 cats in the sample, 44 were classified as social temperament (78.6%), 10 as unsocial temperament (17.9%), and 2 with temperament unknown (3.6%). 
+
+```{r}
+#| label: sample-overview-temperament
+
+parasites_google_clean |> 
+  group_by(temperament) |> 
+   summarize (    Total = n(),
+     Proportion = n()/total) |> 
+  gt()
+
+sample_summarize_bar_chart(parasites_google_clean, temperament) + 
+  labs(
+    title = "Temperament of Sample at Collection",
+    x = "Temperament"
+  ) 
+
+```
+
+### Health Status
+
+Over half (62.5%) of the cats were classified as healthy (N = 35).  The remaining cats were classified as sick (10.7%, N = 6) or other (26.8%, N = 15).
+
+```{r}
+#| label: sample-overview-health-status
+
+parasites_google_clean |> 
+  group_by(health_status) |> 
+   summarize (    Total = n(),
+     Proportion = n()/total) |> 
+  gt()
+
+sample_summarize_bar_chart(parasites_google_clean, health_status) + 
+  labs(
+    title = "Health Status of Sample at Collection",
+    x = "Health Status"
+  ) 
+
+```
+
+## Data Overview
+
+56 cats were evaluated for each of the parasites, with 224 tests total (56*4).  Of these, 17 of the tests were positive (7.59%).  Of the 56 cats, 13 tested positive for one or more parasite (23.2%).
+
+There are currently no cases positive for toxoplasma.  The majority of positive test results are for Coccidia, followed by Roundworms.  16.1% of the cats tested positive for coccidia.   10.7% of the cats tested positive for roundworms. There were 17 total positive test results, though some of these results overlapped as they were from the same case.  (Figure 1, Table 1)
+
+```{r}
+#| label: parasites-overview-graphic
+
+# lengthen by parasite type
+longer_by_parasites <- parasites_google_clean |> 
+  pivot_longer(names_to = "parasite_type",
+               values_to = "results", 
+               cols = toxocara_roundworms: toxoplasma) |> 
+  group_by(parasite_type) 
+
+  
+# graphic
+ longer_by_parasites |> 
+  ggplot(mapping = aes(x = parasite_type, fill = results)) +
+  geom_bar(position = "stack") +
+  theme_bw() +
+     scale_fill_brewer(palette = "Greens", 
+                       na.value = "#dbdbdb",
+                       labels = c("Negative", "Positive")) +
+   labs(x = "Parasite", 
+        y = "Counts",
+        title = "Figure 1: Results per Parasite",
+        fill = "Result") +
+   scale_x_discrete(labels = c("Cystoisospora felis (Coccidia)", "Sarco-like", "Toxocara (Roundworms)", "Toxoplasma"))  # x-axis variable labels
+ 
+
+
+```
+
+```{r}
+#| label: parasite-overview-table
+
+
+ #table with proportions
+  
+   longer_by_parasites |> 
+     mutate(parasite_type = fct_recode(parasite_type,
+                                  "Toxocara (Roundworms)" = "toxocara_roundworms",
+                                  "Toxoplasma" = "toxoplasma",
+            "C. Felis (Coccidia)" = "cystoisospora_felis_coccidia",
+            "Sarco-like" = "sarco_like")) |> #changing formatting and case of the parasites
+      tbl_summary(by = "results", 
+                  include = "parasite_type", 
+                  percent = "row",
+                  label = list(parasite_type ~ "Parasite Species"),#fixing the parasite type label
+                  digits = list(all_categorical() ~ c(0, 1))) |> 
+     add_overall(last = TRUE) |> #add column for overall
+    modify_header(
+    label = "**Parasite**",
+    stat_1 = "**Negative**, N = {n} ({style_percent(p, digits = 1)}%)",
+    stat_2 = "**Positive**, N = {n} ({style_percent(p, digits = 1)}%)",
+    stat_0 = "**Overall**, N = {n} ({style_percent(p, digits = 1)}%)" 
+  )  |> 
+     modify_spanning_header(all_stat_cols() ~ "**Results**") |> 
+  modify_caption("**Table 1. Parasite Testing Results**")
+```
+
+```{r}
+#| label: adding-age-group
+
+parasites_google_clean <- parasites_google_clean |> 
+mutate(age_group = case_when(
+      age_at_collection_yrs >= 0.5 ~ "Adult (> 6 months)",
+      age_at_collection_yrs < 0.5 & age_at_collection_yrs > 0.2 ~ "Juvenile (3-6 months)",
+      age_at_collection_yrs <= 0.2 ~ "Kitten (< 3 months)",
+      is.na(age_at_collection_yrs) ~ "Unknown"
+    )) |> 
+    mutate(age_group = factor(age_group, levels = c(
+    "Kitten (< 3 months)", 
+    "Juvenile (3-6 months)", 
+    "Adult (> 6 months)",
+    "Unknown"
+  )))
+```
+
+The data from roundworms and coccidia were analyzed further.
+
+## Roundworms
+
+There were six cases positive for toxocara (10.7%).  Of these, two had never received Nemex, two had received Nemex only once, and two had received Nemex two times. (Figure 2, Table 2)
+
+
+```{r}
+#| label: roundworm-and-tx-graphic
+
+# Toxocara prevalence and Nemex treatment
+
+parasites_google_clean |> 
+  ggplot(mapping = aes(x = nemex_dose_number, fill = toxocara_roundworms)) +
+  geom_bar(position = "stack") + #stack to make the results not even
+  theme_bw() +
+  scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb",
+                    labels = c("Negative", "Positive")) + 
+  labs (x = "Number of Nemex Doses Received", y = "Number of Cases", 
+        title = "Figure 2: Toxocara (Roundworms) and Nemex Treatment",
+        fill = "Toxocara (Roundworms) Result") 
+  
+
+```
+
+
+```{r}
+#| label: roundworm-and-tx-table
+
+# Toxocara prevalence and Nemex treatment
+
+parasites_google_clean |> 
+      tbl_summary(by = "toxocara_roundworms", 
+                  include = "nemex_dose_number", 
+                  percent = "row",
+                  label = list(nemex_dose_number ~ "Number of Nemex Doses Received"),#fixing the parasite type label
+                  digits = list(all_categorical() ~ c(0, 1))) |> 
+     add_overall(last = TRUE) |> #add column for overall
+    modify_header(
+    label = "**Toxocara (Roundworms)**",
+    stat_1 = "**Negative**, N = {n} ({style_percent(p, digits = 1)}%)",
+    stat_2 = "**Positive**, N = {n} ({style_percent(p, digits = 1)}%)",
+    stat_0 = "**Overall**, N = {n} ({style_percent(p, digits = 1)}%)" 
+  )  |> 
+    modify_spanning_header(all_stat_cols() ~ "**Results**") |> 
+    modify_caption("**Table 2. Roundworms and Nemex**") 
+
+
+```
+
+Of the six cats positive for toxocara, four were adults (>6 months), one was a juvenile (3-6 months), and one was unknown age.  The juvenile had completed two treatments of Nemex.  The unknown case had never received Nemex.  The adults were distributed among the three Nemex groups.  (Figure 3, Table 3)
+
+
+
+```{r}
+#| label: positive-roundworm-and-tx-by-age-group
+
+parasites_google_clean |> 
+  filter(
+         toxocara_roundworms == TRUE,
+           !is.na(toxocara_roundworms)) |> 
+ ggplot(mapping = aes(nemex_dose_number, fill = age_group)) +
+  geom_bar(position = "stack") +
+theme_bw() +
+  scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb",
+                    labels = c("Adult", "Juvenile", "Unknown")) + 
+  labs (x = "Number of Nemex Doses Received", y = "Positive Roundworms Cases", 
+        title = "Figure 3. Positive Roundworms Cases and Nemex Treatment By Age Group",
+        fill = "Age Group") 
+  
+```
+
+
+```{r}
+#| label: toxocara-nemex-age-group
+
+
+parasites_google_clean |>
+  select(toxocara_roundworms, nemex_dose_number, age_group) |> 
+  tbl_strata(
+    strata = toxocara_roundworms,
+    .tbl_fun =
+      ~ .x |>
+        tbl_summary(by = nemex_dose_number, missing = "no") |>
+        add_n(),
+    .header = "**{strata}**, N = {n}"
+  ) |> 
+modify_header(
+    label = "**Nemex Doses Received**"
+  ) |> 
+    modify_caption("**Table 3. Roundworms and Nemex by Age Group**")
+```
+
+
+
+
+## Coccidia
+
+There were negative test results for Coccidia among those who did and did not receive ponazuril, however, all of the positive cases did not receive ponazuril.  Nine of the 56 cats tested positive for Coccidia (16.1%).  All nine had never received ponazuril.  (Figure 4, Table 4)
+
+```{r}
+#| label: coccidia-results-and-tx
+
+# Coccidia prevalence and ponazuril treatment
+
+parasites_google_clean |> 
+  ggplot(mapping = aes(x = ponazuril_dose_number, fill = cystoisospora_felis_coccidia)) +
+  geom_bar(position = "stack") +
+  #scale_y_continuous(labels = scales::label_percent()) + 
+  theme_bw() +
+  scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb",
+                    labels = c("Negative", "Positive")) + 
+  labs (x = "Number of Ponazuril Doses Received", y = "Number of Cats", 
+        title = "Figure 4. Positive Results for Coccidia and Ponazuril Treatment",
+        fill = "Cystoisospora felis (Coccidia) Result") 
+  
+
+### add table of results for proportions
+
+### need to remove the NA because it's considering the cases without data - but be specific about the cases, not the ones that just don't have data
+
+```
+
+
+```{r}
+#| label: coccidia-and-tx-table
+
+# Coccidia prevalence and Ponazuril treatment
+
+parasites_google_clean |> 
+  tbl_summary(
+    by = "cystoisospora_felis_coccidia", 
+    include = "ponazuril_dose_number", 
+    percent = "row",
+    type = list(ponazuril_dose_number ~ "categorical"), #forcing numbers to be treated as rows
+    label = list(ponazuril_dose_number ~ "Number of Ponazuril Doses Received"),
+    digits = list(all_categorical() ~ c(0, 1))
+  ) |> 
+  add_overall(last = TRUE) |> 
+  modify_header(
+    label = "**Cystoisospora (Coccidia)**",
+    stat_1 = "**Negative**, N = {n} ({style_percent(p, digits = 1)}%)",
+    stat_2 = "**Positive**, N = {n} ({style_percent(p, digits = 1)}%)",
+    stat_0 = "**Overall**, N = {n} ({style_percent(p, digits = 1)}%)" 
+  ) |> 
+  modify_spanning_header(all_stat_cols() ~ "**Results**") |> 
+  modify_caption("**Table 4. Coccidia and Ponazuril**")
+
+```
+Five of the positive cases for Coccidia were adult cats (> 6 months) who had never been treated, three were juvenile (3-6 months), and one was of unknown age.
+
+
+```{r}
+#| label: positive-coccidia-no-tx-by-age-group
+
+# how many of those that didn't receive ponazuril + tested + for coccidia + are adults (over 6 months)
+
+
+parasites_google_clean |> 
+  filter(
+    ponazuril_dose_number == 0, #cats that never received ponazuril
+         cystoisospora_felis_coccidia == TRUE
+    ) |> #cats that tested positive for coccidia
+ ggplot(mapping = aes(x = age_group, fill = age_group)) +
+  geom_bar() +
+theme_bw() +
+  scale_x_discrete(drop = FALSE) +
+  scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb",
+                    labels = c("Adult", "Juvenile", "Kitten")) + 
+  labs (x = "Age Group", y = "Positive Coccidia Cases", 
+        title = "Figure 5. Positive Coccidia Cases For Those Without Ponazuril By Age Group") +
+  guides(fill = "none")
+
+  
+```
+
+
+```{r}
+#| label: coccidia-ponazuril-age-group
+
+
+parasites_google_clean |>
+  select(cystoisospora_felis_coccidia, ponazuril_dose_number, age_group) |> 
+  tbl_strata(
+    strata = cystoisospora_felis_coccidia,
+    .tbl_fun =
+      ~ .x |>
+        tbl_summary(by = ponazuril_dose_number, missing = "no") |>
+        add_n(),
+    .header = "**{strata}**, N = {n}"
+  ) |> 
+modify_header(
+    label = "**Ponazuril Doses Received**"
+  ) |> 
+    modify_caption("**Table 5. Coccidia and Ponazuril by Age Group**")
+```
+
+
+
+
+
+
+## Discussion
+
+- Cats included in this study were selected to satisfy the Land To Sea sample requirements which aims to answer a different research question.  
+- The research protocol indicated only cats above two months of age to be included in the study, limiting the possibility of cats sampled to be within the "kitten" age group (< 3 months).  The kitten age group is especially relevant when considering the shift in the deworming protocol for cats at 12 weeks (3 months), so their lack of representation is noteworthy.
+- There was no randomness in the cases selected for the study.  As such, the sample is not representative of the population due to undercoverage bias.
