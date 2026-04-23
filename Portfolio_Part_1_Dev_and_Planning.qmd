@@ -1,0 +1,116 @@
+---
+title: "Portfolio Part 1: Development and Planning"
+Author: "Sequoia Fellenbaum"
+format: html
+---
+
+## Data Description
+
+### 1. Identify your data source.
+
+My data source is data from a research project that I am working on through the Santa Cruz County Animal Shelter, analyzing the prevalence of certain parasites in fecal samples from cats that have been outdoors.  The data is compiled using the lab results from a larger study that is analyzing Toxoplasma prevalence in Monterey Bay.
+
+### 2. Describe your data, including variables and data types.
+
+The data has a lot going on and I've been working on it a little bit now.  See the current variables and data types below:
+
+| Variable | What it is | Data type | Variable type | 
+| ---- | ---- | ---- | ---- |
+| `a_id` | Animal ID number, specific to each animal | Character string | Qualitative - nominal | 
+| `name` | The animal's name (if applicable) - makes entering data a little bit easier because I can double check that I'm entering the information on the correct animal | Character string | Qualitative - nominal | 
+| `collection_date` | The date the sample was collected | Date | Quantitative - discrete | 
+| `dob` | The animal's date of birth | Date | Quantitative - discrete |
+| `age_at_collection_yrs` | The animals age at the date of collection, calculated | Number | Quantitative - continuous | 
+| `date_of_sn` | The date that the animal was spayed/neutered | Date | Quantitative - discrete |
+| `sn_at_collection` | If the animal was spayed/neutered prior to the collection date | Character string | Qualitative - nominal | 
+| `sex` | The animal's sex - somewhat redundant/useless because the sex doesn't specify when the animal was spayed/neutered | Character string | Qualitative - nominal |
+| `health status` | The animal's general health status | Character string | Qualitative - nominal |
+| `surrendered` | If the animal was surrendered on intake to the shelter | Logical | Qualitative - nominal |
+| `temperament` | The animal's social status with humans | Character string | Qualitative - nominal |
+| `tongue` | If a tongue sample was obtained | Logical | Qualitative - nominal |
+| `feces` | If a feces sample was obtained | Logical | Qualitative - nominal |
+| `feces_storage` | How the feces sample was stored | Character string | Qualitative - nominal |
+| `mortem_collection` | If the sample was obtained from a living or dead animal | Character string | Qualitative - nominal |
+| `toxocara_roundworms` | Test results for toxocara (roundworms) | Logical | Qualitative - nominal |
+| `cystoisospora_felis_coccidia` | Test results for cystoisospora felis (coccidia) | Logical | Qualitative - nominal |
+| `sarco_like` | Presence of unidentified sarco-like organism on fecal float | Logical | Qualitative - nominal | 
+| `toxoplasma` | Test results for toxoplasma | Logical | Qualitative - nominal | 
+| `parasite` | If the animal tested positive for any of the aforementioned parasites | Logical | Qualitative - nominal |
+| `nemex_1` | The first date of nemex treatment | Date | Quantitative - discrete | 
+| `nemex_2` | The second date of nemex treatment | Date | Quantitative - discrete |
+| `nemex_3` | The third date of nemex treatment | Date | Quantitative - discrete |
+| `panacur_1` | The first date of panacur treatment | Date | Quantitative - discrete |
+| `ponazuril_1` | The first date of ponazuril treatment | Date | Quantitative - discrete |
+| `ponazuril_2` | The second date of ponazuril treatment | Date | Quantitative - discrete |
+| `days_since_last_nemex` | The number of days since the most recent nemex treatment | Number | Quantitative - continuous | 
+
+
+### 3. Identify the research questions you want to answer.
+
+- Is there a statistically significant relationship between cats that have been treated with nemex + panacur and negative test results for roundworms for cats in the Santa Cruz County Animal Shelter?
+- Is there a statistically significant relationship between cats that have been treated with ponazuril and negative test results for coccidia for cats in the Santa Cruz County Animal Shelter?
+
+- I'd also like to explore test results with temperament, surrender status, and age.
+
+
+## Data Visualization
+
+### 1. What do you want your final visualizations to look like?
+
+I think the best visualization would be bar graphs showing proportion of positive/negative for each of the variables (treated, temperament, surrender status, and age), faceted by parasite type.
+
+### 2. What do you want to highlight on your final visualizations in order to answer your research questions? How do you plan to do that?
+
+I think using bar graphs filled by positive vs negative result would help.  My research question will be answered with chi square goodness of fit tests and the visualizations will help explore the data in a meaningful wauy.
+
+### 3. What is missing from your data or would need to change in your data to create these visualizations?
+
+My data definitely needs to be cleaned up to be able to create these visualizations.  I think I would need to lengthen my data to create these visualizations too.
+
+
+## Data Cleaning
+The answer to at least three of these questions should be “YES” for the data to meet the necessary standards to demonstrate your cleaning. Your data source should not be an already perfectly prepared data set.
+
+
+### 1. Do you need to reformat any variables into different types (e.g. factors, time, dates, strings)? Or remove information from variable values?
+
+The `sex` variable should have their fixed/intact status removed (neutered/spayed) because the `sn_at_collection` variable provides this information.
+
+### 2. Do you need to deal with any missing data, especially missing data coded other than NA?
+
+Yes, see #5. 
+
+### 3. Do you need to filter your data? How?
+
+Yes, there are a lot of ways to filter the data.  By parasite, by treatment, by temperament, by surrender status, by age...  
+
+### 4. Do you need to create any new variables? What variables? How?
+
+I would like to have a logical variable for each of the treatments.  For example, a column for if nemex was given at least two weeks prior to the sampling date (T/F).  One of these columns for each of the three treatments would be useful so that I could look at if the cats were treated for the parasite that they tested positive for.
+
+### 5. Do you need to add new data (join) to your data? What data? How?
+
+No new data to join. There are new cases that haven't had results back from the lab yet, but once the code is written, I can just add the data and then re-run the code.
+
+### 6. Are there any variables you can exclude from your data?
+
+Yes, there are quite a few variables I can exclude.  I think I can reasonably exclude `name`, `date_of_sn`, `tongue`, `feces`, `feces_storage`, and `mortem_collection`.  I may also exclude the columns about specific treatments, in exchange for a general column about whether or not the animal was treated (for example, rather than `nemex_1`, `nemex_2`, and `nemex_3`, it may be better to just have a logical `nemex_TF` type variable).
+
+### 7. Do you need pivot your data in any way? Why? How?
+
+Potentially.  I think making the data longer for each of the parasites could be useful.
+
+### 8. Do you need to summarize any of the variables? Which ones? How?
+
+I am not sure.  I think summarize could be useful for this dataset but I haven't really explored how I'm going to analyze the data yet.
+
+### 9. What other aspects of your data need to be “fixed” in order to make your data visualizations?
+
+I'm not sure exactly, but I do know the data is messy and will probably need more fixing than what I have outlined here.
+
+## Questions
+
+- I'm not sure if I should care about cats that tested positive for multiple parasites being treated as duplicates or not.  I think I will consider them multiple cases for the sake of analyzing each parasite, but if looking at the entire dataset and prevalence of cases positive in general, they should be considered one case.
+- I think my research question makes sense (I got out my STAT 250 binder but it's a little rusty) so I'd love feedback/advise.  This data has a lot going on and there are a lot of ways I could analyze it, so I'm trying to do it in a way that makes sense to me.  I'm very open to suggestions!
+
+
