@@ -4,9 +4,6 @@ author: "Sequoia Fellenbaum"
 format: html
 echo: false
 warning: false
-output:
-  html_document:
-    self_contained: true
 ---
 
 ```{r}
