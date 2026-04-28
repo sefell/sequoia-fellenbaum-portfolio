@@ -573,7 +573,25 @@ modify_header(
 
 
 
+## Unsocial Cat Specific Evaluation
 
+```{r}
+#| label: unsocial-cat-eval
+
+parasites_google_clean |> 
+  filter(temperament == "unsocial") 
+  
+table(parasites_google_clean$toxocara_roundworms, parasites_google_clean$temperament)
+      
+```
+
+```{r}
+table(parasites_google_clean$cystoisospora_felis_coccidia, parasites_google_clean$temperament)
+```
+
+```{r}
+table(parasites_google_clean$nemex_dose_number, parasites_google_clean$temperament)
+```
 
 
 ## Discussion
