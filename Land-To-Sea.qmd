@@ -26,6 +26,8 @@ parasites_google <- read_sheet("https://docs.google.com/spreadsheets/d/1_D_1uIb8
                                col_types = "ccDDnDccclcllcclllllDDDDDDn",
                                na = c("<NA>", "na", "NA"))
 
+write_csv(parasites_google, file = "Data/data-raw/parasites_google.csv")
+
 ```
 
 ```{r}
@@ -107,6 +109,30 @@ write_csv(parasites_google_clean, file = "Data/parasites_google_clean.csv")
 
 
 
+```{r}
+#| label: parasites-result-reorder-function
+
+parasite_results_reorder <- function(data, x) {
+  data |> 
+    # 1. Overwrite the original column using := 
+    # We use as.character() to bridge the gap between logical and factor
+    mutate("{{x}}" := as.character({{x}})) |> 
+    
+    # 2. Now {{x}} refers to the character version we just made
+    mutate("{{x}}" := fct_recode({{x}},
+                                 "Positive" = "TRUE", 
+                                 "Negative" = "FALSE")) |> 
+    
+    # 3. Final releveling
+    mutate("{{x}}" := fct_relevel({{x}}, 
+                                  c("Positive", "Negative")))
+}
+  
+#used Gemini to fix this function... link to pasted conversation: https://docs.google.com/document/d/1rTyVrAumzQIgp8ojepg9mk3BpeZkIY7Joy3Iz8OdFTk/edit?usp=sharing
+```
+
+
+
 ## Sample Demographics & Overview
 
 This sample includes 56 cats from the Santa Cruz County Animal Shelter.
@@ -135,6 +161,7 @@ sample_summarize_bar_chart <- function(data, x) { #include data
 
 
 ```
+
 
 ### Age
 
@@ -335,6 +362,7 @@ longer_by_parasites <- parasites_google_clean |>
  #table with proportions
   
    longer_by_parasites |> 
+  parasite_results_reorder(results) |> 
      mutate(parasite_type = fct_recode(parasite_type,
                                   "Toxocara (Roundworms)" = "toxocara_roundworms",
                                   "Toxoplasma" = "toxoplasma",
@@ -347,11 +375,7 @@ longer_by_parasites <- parasites_google_clean |>
                   digits = list(all_categorical() ~ c(0, 1))) |> 
      add_overall(last = TRUE) |> #add column for overall
     modify_header(
-    label = "**Parasite**",
-    stat_1 = "**Negative**, N = {n} ({style_percent(p, digits = 1)}%)",
-    stat_2 = "**Positive**, N = {n} ({style_percent(p, digits = 1)}%)",
-    stat_0 = "**Overall**, N = {n} ({style_percent(p, digits = 1)}%)" 
-  )  |> 
+    label = "**Parasite**") |> 
      modify_spanning_header(all_stat_cols() ~ "**Results**") |> 
   modify_caption("**Table 1. Parasite Testing Results**")
 ```
@@ -406,18 +430,13 @@ parasites_google_clean |>
 # Toxocara prevalence and Nemex treatment
 
 parasites_google_clean |> 
+  parasite_results_reorder(toxocara_roundworms) |> 
       tbl_summary(by = "toxocara_roundworms", 
                   include = "nemex_dose_number", 
                   percent = "row",
                   label = list(nemex_dose_number ~ "Number of Nemex Doses Received"),#fixing the parasite type label
                   digits = list(all_categorical() ~ c(0, 1))) |> 
      add_overall(last = TRUE) |> #add column for overall
-    modify_header(
-    label = "**Toxocara (Roundworms)**",
-    stat_1 = "**Negative**, N = {n} ({style_percent(p, digits = 1)}%)",
-    stat_2 = "**Positive**, N = {n} ({style_percent(p, digits = 1)}%)",
-    stat_0 = "**Overall**, N = {n} ({style_percent(p, digits = 1)}%)" 
-  )  |> 
     modify_spanning_header(all_stat_cols() ~ "**Results**") |> 
     modify_caption("**Table 2. Roundworms and Nemex**") 
 
@@ -435,7 +454,8 @@ parasites_google_clean |>
   filter(
          toxocara_roundworms == TRUE,
            !is.na(toxocara_roundworms)) |> 
- ggplot(mapping = aes(nemex_dose_number, fill = age_group)) +
+ ggplot(mapping = aes(nemex_dose_number, 
+                      fill = age_group)) +
   geom_bar(position = "stack") +
 theme_bw() +
   scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb",
@@ -453,6 +473,7 @@ theme_bw() +
 
 parasites_google_clean |>
   select(toxocara_roundworms, nemex_dose_number, age_group) |> 
+  parasite_results_reorder(toxocara_roundworms) |> 
   tbl_strata(
     strata = toxocara_roundworms,
     .tbl_fun =
@@ -464,7 +485,8 @@ parasites_google_clean |>
 modify_header(
     label = "**Nemex Doses Received**"
   ) |> 
-    modify_caption("**Table 3. Roundworms and Nemex by Age Group**")
+    modify_caption("**Table 3. Roundworms and Nemex by Age Group**") |> 
+     modify_spanning_header(all_stat_cols() ~ "**Results**") 
 ```
 
 
@@ -480,11 +502,13 @@ There were negative test results for Coccidia among those who did and did not re
 # Coccidia prevalence and ponazuril treatment
 
 parasites_google_clean |> 
-  ggplot(mapping = aes(x = ponazuril_dose_number, fill = cystoisospora_felis_coccidia)) +
+  ggplot(mapping = aes(x = ponazuril_dose_number, 
+                       fill = cystoisospora_felis_coccidia)) +
   geom_bar(position = "stack") +
   #scale_y_continuous(labels = scales::label_percent()) + 
   theme_bw() +
-  scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb",
+  scale_fill_brewer(palette = "Greens", 
+                    na.value = "#dbdbdb",
                     labels = c("Negative", "Positive")) + 
   labs (x = "Number of Ponazuril Doses Received", y = "Number of Cats", 
         title = "Figure 4. Positive Results for Coccidia and Ponazuril Treatment",
@@ -504,6 +528,7 @@ parasites_google_clean |>
 # Coccidia prevalence and Ponazuril treatment
 
 parasites_google_clean |> 
+  parasite_results_reorder(cystoisospora_felis_coccidia) |> 
   tbl_summary(
     by = "cystoisospora_felis_coccidia", 
     include = "ponazuril_dose_number", 
@@ -513,16 +538,18 @@ parasites_google_clean |>
     digits = list(all_categorical() ~ c(0, 1))
   ) |> 
   add_overall(last = TRUE) |> 
-  modify_header(
-    label = "**Cystoisospora (Coccidia)**",
-    stat_1 = "**Negative**, N = {n} ({style_percent(p, digits = 1)}%)",
-    stat_2 = "**Positive**, N = {n} ({style_percent(p, digits = 1)}%)",
-    stat_0 = "**Overall**, N = {n} ({style_percent(p, digits = 1)}%)" 
-  ) |> 
   modify_spanning_header(all_stat_cols() ~ "**Results**") |> 
   modify_caption("**Table 4. Coccidia and Ponazuril**")
 
 ```
+
+```{r}
+#| label: chi-square-coccidia
+
+chisq.test(table(parasites_google_clean$ponazuril_dose_number, parasites_google_clean$cystoisospora_felis_coccidia))
+```
+
+
 Five of the positive cases for Coccidia were adult cats (> 6 months) who had never been treated, three were juvenile (3-6 months), and one was of unknown age.
 
 
@@ -541,9 +568,11 @@ parasites_google_clean |>
   geom_bar() +
 theme_bw() +
   scale_x_discrete(drop = FALSE) +
-  scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb",
+  scale_fill_brewer(palette = "Greens", 
+                    na.value = "#dbdbdb",
                     labels = c("Adult", "Juvenile", "Kitten")) + 
-  labs (x = "Age Group", y = "Positive Coccidia Cases", 
+  labs (x = "Age Group", 
+        y = "Positive Coccidia Cases", 
         title = "Figure 5. Positive Coccidia Cases For Those Without Ponazuril By Age Group") +
   guides(fill = "none")
 
@@ -556,12 +585,14 @@ theme_bw() +
 
 
 parasites_google_clean |>
-  select(cystoisospora_felis_coccidia, ponazuril_dose_number, age_group) |> 
+  select(cystoisospora_felis_coccidia, ponazuril_dose_number, age_group) |>
+  parasite_results_reorder(cystoisospora_felis_coccidia) |> 
   tbl_strata(
     strata = cystoisospora_felis_coccidia,
     .tbl_fun =
       ~ .x |>
-        tbl_summary(by = ponazuril_dose_number, missing = "no") |>
+        tbl_summary(by = ponazuril_dose_number, 
+                    missing = "no") |>
         add_n(),
     .header = "**{strata}**, N = {n}"
   ) |> 
@@ -577,6 +608,8 @@ modify_header(
 
 ```{r}
 #| label: unsocial-cat-eval
+#| eval: false
+#| include: false
 
 parasites_google_clean |> 
   filter(temperament == "unsocial") 
@@ -586,10 +619,14 @@ table(parasites_google_clean$toxocara_roundworms, parasites_google_clean$tempera
 ```
 
 ```{r}
+#| eval: false
+#| include: false
 table(parasites_google_clean$cystoisospora_felis_coccidia, parasites_google_clean$temperament)
 ```
 
 ```{r}
+#| eval: false
+#| include: false
 table(parasites_google_clean$nemex_dose_number, parasites_google_clean$temperament)
 
 ```
@@ -600,3 +637,9 @@ table(parasites_google_clean$nemex_dose_number, parasites_google_clean$temperame
 - Cats included in this study were selected to satisfy the Land To Sea sample requirements which aims to answer a different research question.  
 - The research protocol indicated only cats above two months of age to be included in the study, limiting the possibility of cats sampled to be within the "kitten" age group (< 3 months).  The kitten age group is especially relevant when considering the shift in the deworming protocol for cats at 12 weeks (3 months), so their lack of representation is noteworthy.
 - There was no randomness in the cases selected for the study.  As such, the sample is not representative of the population due to undercoverage bias.
+
+
+
+
+
+
