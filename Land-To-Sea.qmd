@@ -591,6 +591,7 @@ table(parasites_google_clean$cystoisospora_felis_coccidia, parasites_google_clea
 
 ```{r}
 table(parasites_google_clean$nemex_dose_number, parasites_google_clean$temperament)
+
 ```
 
 
