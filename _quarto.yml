@@ -3,7 +3,7 @@ project:
   output-dir: docs
   
 website:
-  title: "sequoia-fellenbaum-portfolio"
+  title: "Sequoia Fellenbaum Portfolio"
   navbar:
     left:
       - href: index.qmd
