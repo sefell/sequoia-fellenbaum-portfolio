@@ -97,7 +97,23 @@ parasites_google_clean <- parasites_google_clean |>
          ponazuril_dose_number = sum(!is.na(c_across(ponazuril_1:ponazuril_2))),
          panacur_dose_number = sum(!is.na(panacur_1))) |> 
   ungroup() |> 
-  select(a_id, collection_date, age_at_collection_yrs, sn_at_collection, sex, health_status, surrendered, temperament, toxocara_roundworms, cystoisospora_felis_coccidia, sarco_like, toxoplasma, parasite, nemex_dose_number, ponazuril_dose_number, panacur_dose_number) |> 
+  
+  select(a_id, 
+         collection_date, 
+         age_at_collection_yrs, 
+         sn_at_collection, 
+         sex, 
+         health_status, 
+         surrendered, 
+         temperament, 
+         toxocara_roundworms, 
+         cystoisospora_felis_coccidia, 
+         sarco_like, 
+         toxoplasma, 
+         parasite, 
+         nemex_dose_number, 
+         ponazuril_dose_number, 
+         panacur_dose_number) |> 
  mutate(age_group = case_when(
       age_at_collection_yrs >= 0.5 ~ "Adult (> 6 months)",
       age_at_collection_yrs < 0.5 & age_at_collection_yrs > 0.2 ~ "Juvenile (3-6 months)",
@@ -152,11 +168,13 @@ sample_summarize_bar_chart <- function(data, x) { #include data
  mutate(sn_at_collection = replace_na({{x}}, "Unknown")) |> 
   ggplot(mapping = aes({{x}}, fill = {{x}})) +
   geom_bar() +
-    scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb") +
+    scale_fill_brewer(palette = "Greens", 
+                      na.value = "#dbdbdb") +
   guides(fill = "none") +
   theme_bw() +
   scale_x_discrete(drop = FALSE) +
-    geom_text(stat = "count", aes(label = after_stat(count)), vjust = -0.5)
+    geom_text(stat = "count", 
+              aes(label = after_stat(count)), vjust = -0.5)
 }
 
 
@@ -201,7 +219,8 @@ summarize(
   rename("Age Group" = age_group) |> 
   gt()
 
-sample_summarize_bar_chart(parasites_google_clean, age_group) + 
+sample_summarize_bar_chart(parasites_google_clean, 
+                           age_group) + 
   labs(
     title = "Age Groups of Sample at Collection",
     x = "Age Group"
@@ -218,7 +237,8 @@ Of the cats sampled, 62.5% were altered (spayed/neutered, "fixed") (N = 35) whil
 
 parasites_google_clean |> 
   group_by(sn_at_collection) |> 
- mutate(sn_at_collection = replace_na(sn_at_collection, "Unknown")) |> 
+ mutate(sn_at_collection = replace_na(sn_at_collection, 
+                                      "Unknown")) |> 
 summarize(
     Total = n(),
      Proportion = n()/total
@@ -272,7 +292,8 @@ parasites_google_clean |>
      Proportion = n()/total) |> 
   gt()
 
-sample_summarize_bar_chart(parasites_google_clean, surrendered) + 
+sample_summarize_bar_chart(parasites_google_clean, 
+                           surrendered) + 
   labs(
     title = "Surrendered Status of Sample at Collection",
     x = "Surrendered Status"
@@ -293,7 +314,8 @@ parasites_google_clean |>
      Proportion = n()/total) |> 
   gt()
 
-sample_summarize_bar_chart(parasites_google_clean, temperament) + 
+sample_summarize_bar_chart(parasites_google_clean, 
+                           temperament) + 
   labs(
     title = "Temperament of Sample at Collection",
     x = "Temperament"
@@ -314,7 +336,8 @@ parasites_google_clean |>
      Proportion = n()/total) |> 
   gt()
 
-sample_summarize_bar_chart(parasites_google_clean, health_status) + 
+sample_summarize_bar_chart(parasites_google_clean, 
+                           health_status) + 
   labs(
     title = "Health Status of Sample at Collection",
     x = "Health Status"
@@ -342,7 +365,8 @@ write_csv(longer_by_parasites, file = "Data/data-clean/longer_by_parasites.csv")
   
 # graphic
  longer_by_parasites |> 
-  ggplot(mapping = aes(x = parasite_type, fill = results)) +
+  ggplot(mapping = aes(x = parasite_type, 
+                       fill = results)) +
   geom_bar(position = "stack") +
   theme_bw() +
      scale_fill_brewer(palette = "Greens", 
@@ -352,7 +376,10 @@ write_csv(longer_by_parasites, file = "Data/data-clean/longer_by_parasites.csv")
         y = "Counts",
         title = "Figure 1: Results per Parasite",
         fill = "Result") +
-   scale_x_discrete(labels = c("Cystoisospora felis (Coccidia)", "Sarco-like", "Toxocara (Roundworms)", "Toxoplasma"))  # x-axis variable labels
+   scale_x_discrete(labels = c("Cystoisospora felis (Coccidia)", 
+                               "Sarco-like", 
+                               "Toxocara (Roundworms)", 
+                               "Toxoplasma"))  # x-axis variable labels
  
 
 
@@ -417,9 +444,11 @@ parasites_google_clean |>
   ggplot(mapping = aes(x = nemex_dose_number, fill = toxocara_roundworms)) +
   geom_bar(position = "stack") + #stack to make the results not even
   theme_bw() +
-  scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb",
+  scale_fill_brewer(palette = "Greens", 
+                    na.value = "#dbdbdb",
                     labels = c("Negative", "Positive")) + 
-  labs (x = "Number of Nemex Doses Received", y = "Number of Cases", 
+  labs (x = "Number of Nemex Doses Received", 
+        y = "Number of Cases", 
         title = "Figure 2: Toxocara (Roundworms) and Nemex Treatment",
         fill = "Toxocara (Roundworms) Result") 
   
@@ -461,9 +490,13 @@ parasites_google_clean |>
                       fill = age_group)) +
   geom_bar(position = "stack") +
 theme_bw() +
-  scale_fill_brewer(palette = "Greens", na.value = "#dbdbdb",
-                    labels = c("Adult", "Juvenile", "Unknown")) + 
-  labs (x = "Number of Nemex Doses Received", y = "Positive Roundworms Cases", 
+  scale_fill_brewer(palette = "Greens", 
+                    na.value = "#dbdbdb",
+                    labels = c("Adult", 
+                               "Juvenile", 
+                               "Unknown")) + 
+  labs (x = "Number of Nemex Doses Received", 
+        y = "Positive Roundworms Cases", 
         title = "Figure 3. Positive Roundworms Cases and Nemex Treatment By Age Group",
         fill = "Age Group") 
   
@@ -475,13 +508,16 @@ theme_bw() +
 
 
 parasites_google_clean |>
-  select(toxocara_roundworms, nemex_dose_number, age_group) |> 
+  select(toxocara_roundworms, 
+         nemex_dose_number, 
+         age_group) |> 
   parasite_results_reorder(toxocara_roundworms) |> 
   tbl_strata(
     strata = toxocara_roundworms,
     .tbl_fun =
       ~ .x |>
-        tbl_summary(by = nemex_dose_number, missing = "no") |>
+        tbl_summary(by = nemex_dose_number, 
+                    missing = "no") |>
         add_n(),
     .header = "**{strata}**, N = {n}"
   ) |> 
@@ -512,8 +548,10 @@ parasites_google_clean |>
   theme_bw() +
   scale_fill_brewer(palette = "Greens", 
                     na.value = "#dbdbdb",
-                    labels = c("Negative", "Positive")) + 
-  labs (x = "Number of Ponazuril Doses Received", y = "Number of Cats", 
+                    labels = c("Negative", 
+                               "Positive")) + 
+  labs (x = "Number of Ponazuril Doses Received", 
+        y = "Number of Cats", 
         title = "Figure 4. Positive Results for Coccidia and Ponazuril Treatment",
         fill = "Cystoisospora felis (Coccidia) Result") 
   
@@ -567,13 +605,16 @@ parasites_google_clean |>
     ponazuril_dose_number == 0, #cats that never received ponazuril
          cystoisospora_felis_coccidia == TRUE
     ) |> #cats that tested positive for coccidia
- ggplot(mapping = aes(x = age_group, fill = age_group)) +
+ ggplot(mapping = aes(x = age_group, 
+                      fill = age_group)) +
   geom_bar() +
 theme_bw() +
   scale_x_discrete(drop = FALSE) +
   scale_fill_brewer(palette = "Greens", 
                     na.value = "#dbdbdb",
-                    labels = c("Adult", "Juvenile", "Kitten")) + 
+                    labels = c("Adult", 
+                               "Juvenile", 
+                               "Kitten")) + 
   labs (x = "Age Group", 
         y = "Positive Coccidia Cases", 
         title = "Figure 5. Positive Coccidia Cases For Those Without Ponazuril By Age Group") +
@@ -588,7 +629,9 @@ theme_bw() +
 
 
 parasites_google_clean |>
-  select(cystoisospora_felis_coccidia, ponazuril_dose_number, age_group) |>
+  select(cystoisospora_felis_coccidia, 
+         ponazuril_dose_number, 
+         age_group) |>
   parasite_results_reorder(cystoisospora_felis_coccidia) |> 
   tbl_strata(
     strata = cystoisospora_felis_coccidia,
