@@ -53,7 +53,7 @@ The lifecycle of toxoplasmosis is illustrated in Image 1 and Image 2.
 
 The Santa Cruz County Animal Shelter (SCCAS) is involved in the study by providing fecal samples of cats that meet certain criteria.  Samples must come from cats of eight weeks of age or older and have spent time outdoors.  Feral/unsocial cats are more likely to have spent more time outdoors, so stray/found cats are preferred over those that were surrendered.
 
-The fecal samples included in this sample were analyzed by the UC Davis lab via fecal flotation and microscopic analysis.  Entirely separate from the Land To Sea study, the provided results were analyzed with the intention of evaluating the current SCCAS deworming protocol.  The following is that analysis.
+The fecal samples included in this sample were analyzed by the UC Davis lab via fecal flotation and microscopic analysis.  Entirely separate from the Land To Sea study, the provided results were analyzed with the intention of investigating the parasite prevalence at SCCAS to evaluate the current de-worming protocol.  The following is that analysis.
 
 
 ## Background - Parasites
@@ -121,7 +121,8 @@ parasites_google_clean <- parasites_google_clean |>
     ))  |> #added an age group variable and grouped the cats by age
   filter(!is.na(toxocara_roundworms)) #do not include cases without results
 
-write_csv(parasites_google_clean, file = "Data/parasites_google_clean.csv")
+write_csv(parasites_google_clean, 
+          file = "Data/parasites_google_clean.csv")
 
 ```
 
