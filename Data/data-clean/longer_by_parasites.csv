@@ -1,0 +1,225 @@
+a_id,collection_date,age_at_collection_yrs,sn_at_collection,sex,health_status,surrendered,temperament,parasite,nemex_dose_number,ponazuril_dose_number,panacur_dose_number,age_group,parasite_type,results
+A282676,2025-09-01,4.333333333333333,Fixed,spayed_female,healthy,TRUE,social,FALSE,2,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A282676,2025-09-01,4.333333333333333,Fixed,spayed_female,healthy,TRUE,social,FALSE,2,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A282676,2025-09-01,4.333333333333333,Fixed,spayed_female,healthy,TRUE,social,FALSE,2,0,0,Adult (> 6 months),sarco_like,FALSE
+A282676,2025-09-01,4.333333333333333,Fixed,spayed_female,healthy,TRUE,social,FALSE,2,0,0,Adult (> 6 months),toxoplasma,FALSE
+A318801,2025-04-19,2.161111111111111,Fixed,spayed_female,sick,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A318801,2025-04-19,2.161111111111111,Fixed,spayed_female,sick,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A318801,2025-04-19,2.161111111111111,Fixed,spayed_female,sick,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A318801,2025-04-19,2.161111111111111,Fixed,spayed_female,sick,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319603,2025-04-16,2.05,Fixed,spayed_female,sick,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A319603,2025-04-16,2.05,Fixed,spayed_female,sick,TRUE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A319603,2025-04-16,2.05,Fixed,spayed_female,sick,TRUE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A319603,2025-04-16,2.05,Fixed,spayed_female,sick,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319666,2025-04-16,1.038888888888889,Fixed,neutered_male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A319666,2025-04-16,1.038888888888889,Fixed,neutered_male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A319666,2025-04-16,1.038888888888889,Fixed,neutered_male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A319666,2025-04-16,1.038888888888889,Fixed,neutered_male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319735,2025-04-18,NA,NA,male,sick,FALSE,unsocial,FALSE,1,0,0,NA,toxocara_roundworms,FALSE
+A319735,2025-04-18,NA,NA,male,sick,FALSE,unsocial,FALSE,1,0,0,NA,cystoisospora_felis_coccidia,FALSE
+A319735,2025-04-18,NA,NA,male,sick,FALSE,unsocial,FALSE,1,0,0,NA,sarco_like,FALSE
+A319735,2025-04-18,NA,NA,male,sick,FALSE,unsocial,FALSE,1,0,0,NA,toxoplasma,FALSE
+A319737,2025-04-18,8.008333333333333,Fixed,spayed_female,other,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A319737,2025-04-18,8.008333333333333,Fixed,spayed_female,other,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A319737,2025-04-18,8.008333333333333,Fixed,spayed_female,other,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),sarco_like,FALSE
+A319737,2025-04-18,8.008333333333333,Fixed,spayed_female,other,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319738,2025-04-16,0.5027777777777778,Fixed,spayed_female,other,FALSE,unsocial,TRUE,0,0,0,Adult (> 6 months),toxocara_roundworms,TRUE
+A319738,2025-04-16,0.5027777777777778,Fixed,spayed_female,other,FALSE,unsocial,TRUE,0,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A319738,2025-04-16,0.5027777777777778,Fixed,spayed_female,other,FALSE,unsocial,TRUE,0,0,0,Adult (> 6 months),sarco_like,FALSE
+A319738,2025-04-16,0.5027777777777778,Fixed,spayed_female,other,FALSE,unsocial,TRUE,0,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319742,2025-04-16,4.002777777777778,Intact,neutered_male,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A319742,2025-04-16,4.002777777777778,Intact,neutered_male,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A319742,2025-04-16,4.002777777777778,Intact,neutered_male,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A319742,2025-04-16,4.002777777777778,Intact,neutered_male,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319818,2025-04-16,2.0166666666666666,Fixed,neutered_male,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A319818,2025-04-16,2.0166666666666666,Fixed,neutered_male,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A319818,2025-04-16,2.0166666666666666,Fixed,neutered_male,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A319818,2025-04-16,2.0166666666666666,Fixed,neutered_male,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319899,2025-04-18,1.011111111111111,NA,female,healthy,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A319899,2025-04-18,1.011111111111111,NA,female,healthy,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A319899,2025-04-18,1.011111111111111,NA,female,healthy,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),sarco_like,FALSE
+A319899,2025-04-18,1.011111111111111,NA,female,healthy,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319903,2025-04-16,1.0055555555555555,Fixed,spayed_female,other,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A319903,2025-04-16,1.0055555555555555,Fixed,spayed_female,other,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A319903,2025-04-16,1.0055555555555555,Fixed,spayed_female,other,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),sarco_like,FALSE
+A319903,2025-04-16,1.0055555555555555,Fixed,spayed_female,other,FALSE,unsocial,FALSE,0,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319911,2025-04-22,NA,NA,female,sick,FALSE,unknown,TRUE,0,0,0,NA,toxocara_roundworms,TRUE
+A319911,2025-04-22,NA,NA,female,sick,FALSE,unknown,TRUE,0,0,0,NA,cystoisospora_felis_coccidia,TRUE
+A319911,2025-04-22,NA,NA,female,sick,FALSE,unknown,TRUE,0,0,0,NA,sarco_like,TRUE
+A319911,2025-04-22,NA,NA,female,sick,FALSE,unknown,TRUE,0,0,0,NA,toxoplasma,FALSE
+A319921,2025-04-19,1.011111111111111,Intact,neutered_male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A319921,2025-04-19,1.011111111111111,Intact,neutered_male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A319921,2025-04-19,1.011111111111111,Intact,neutered_male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A319921,2025-04-19,1.011111111111111,Intact,neutered_male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319991,2025-04-19,2.0055555555555555,NA,unknown,healthy,FALSE,unknown,TRUE,0,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A319991,2025-04-19,2.0055555555555555,NA,unknown,healthy,FALSE,unknown,TRUE,0,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,TRUE
+A319991,2025-04-19,2.0055555555555555,NA,unknown,healthy,FALSE,unknown,TRUE,0,0,0,Adult (> 6 months),sarco_like,FALSE
+A319991,2025-04-19,2.0055555555555555,NA,unknown,healthy,FALSE,unknown,TRUE,0,0,0,Adult (> 6 months),toxoplasma,FALSE
+A319998,2025-04-19,1.9916666666666667,Intact,neutered_male,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),toxocara_roundworms,TRUE
+A319998,2025-04-19,1.9916666666666667,Intact,neutered_male,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A319998,2025-04-19,1.9916666666666667,Intact,neutered_male,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A319998,2025-04-19,1.9916666666666667,Intact,neutered_male,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A320012,2025-04-19,1.0027777777777778,Intact,female,healthy,FALSE,social,FALSE,3,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A320012,2025-04-19,1.0027777777777778,Intact,female,healthy,FALSE,social,FALSE,3,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A320012,2025-04-19,1.0027777777777778,Intact,female,healthy,FALSE,social,FALSE,3,0,0,Adult (> 6 months),sarco_like,FALSE
+A320012,2025-04-19,1.0027777777777778,Intact,female,healthy,FALSE,social,FALSE,3,0,0,Adult (> 6 months),toxoplasma,FALSE
+A320362,2025-09-02,1.8416666666666666,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A320362,2025-09-02,1.8416666666666666,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A320362,2025-09-02,1.8416666666666666,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,0,0,Adult (> 6 months),sarco_like,FALSE
+A320362,2025-09-02,1.8416666666666666,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,0,0,Adult (> 6 months),toxoplasma,FALSE
+A320406,2025-06-07,1.1027777777777779,Fixed,spayed_female,other,FALSE,social,TRUE,2,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A320406,2025-06-07,1.1027777777777779,Fixed,spayed_female,other,FALSE,social,TRUE,2,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,TRUE
+A320406,2025-06-07,1.1027777777777779,Fixed,spayed_female,other,FALSE,social,TRUE,2,0,0,Adult (> 6 months),sarco_like,FALSE
+A320406,2025-06-07,1.1027777777777779,Fixed,spayed_female,other,FALSE,social,TRUE,2,0,0,Adult (> 6 months),toxoplasma,FALSE
+A320428,2025-06-06,1.0972222222222223,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A320428,2025-06-06,1.0972222222222223,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A320428,2025-06-06,1.0972222222222223,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A320428,2025-06-06,1.0972222222222223,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A320576,2025-06-09,1.0972222222222223,Intact,spayed_female,healthy,FALSE,social,TRUE,2,0,0,Adult (> 6 months),toxocara_roundworms,TRUE
+A320576,2025-06-09,1.0972222222222223,Intact,spayed_female,healthy,FALSE,social,TRUE,2,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,TRUE
+A320576,2025-06-09,1.0972222222222223,Intact,spayed_female,healthy,FALSE,social,TRUE,2,0,0,Adult (> 6 months),sarco_like,FALSE
+A320576,2025-06-09,1.0972222222222223,Intact,spayed_female,healthy,FALSE,social,TRUE,2,0,0,Adult (> 6 months),toxoplasma,FALSE
+A320907,2025-06-09,2.077777777777778,Fixed,spayed_female,healthy,FALSE,social,FALSE,3,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A320907,2025-06-09,2.077777777777778,Fixed,spayed_female,healthy,FALSE,social,FALSE,3,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A320907,2025-06-09,2.077777777777778,Fixed,spayed_female,healthy,FALSE,social,FALSE,3,0,0,Adult (> 6 months),sarco_like,FALSE
+A320907,2025-06-09,2.077777777777778,Fixed,spayed_female,healthy,FALSE,social,FALSE,3,0,0,Adult (> 6 months),toxoplasma,FALSE
+A320925,2025-06-09,1.075,Fixed,neutered_male,other,FALSE,social,FALSE,0,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A320925,2025-06-09,1.075,Fixed,neutered_male,other,FALSE,social,FALSE,0,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A320925,2025-06-09,1.075,Fixed,neutered_male,other,FALSE,social,FALSE,0,0,0,Adult (> 6 months),sarco_like,FALSE
+A320925,2025-06-09,1.075,Fixed,neutered_male,other,FALSE,social,FALSE,0,0,0,Adult (> 6 months),toxoplasma,FALSE
+A320997,2025-06-09,0.7388888888888889,Intact,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A320997,2025-06-09,0.7388888888888889,Intact,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A320997,2025-06-09,0.7388888888888889,Intact,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A320997,2025-06-09,0.7388888888888889,Intact,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A321008,2025-06-06,1.5638888888888889,Fixed,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A321008,2025-06-06,1.5638888888888889,Fixed,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A321008,2025-06-06,1.5638888888888889,Fixed,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A321008,2025-06-06,1.5638888888888889,Fixed,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A321551,2025-06-09,1.0416666666666667,Intact,neutered_male,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),toxocara_roundworms,TRUE
+A321551,2025-06-09,1.0416666666666667,Intact,neutered_male,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A321551,2025-06-09,1.0416666666666667,Intact,neutered_male,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A321551,2025-06-09,1.0416666666666667,Intact,neutered_male,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A321616,2025-09-03,1.261111111111111,Fixed,spayed_female,other,TRUE,social,FALSE,2,1,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A321616,2025-09-03,1.261111111111111,Fixed,spayed_female,other,TRUE,social,FALSE,2,1,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A321616,2025-09-03,1.261111111111111,Fixed,spayed_female,other,TRUE,social,FALSE,2,1,0,Adult (> 6 months),sarco_like,FALSE
+A321616,2025-09-03,1.261111111111111,Fixed,spayed_female,other,TRUE,social,FALSE,2,1,0,Adult (> 6 months),toxoplasma,FALSE
+A321647,2025-06-08,0.25833333333333336,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,1,0,Juvenile (3-6 months),toxocara_roundworms,FALSE
+A321647,2025-06-08,0.25833333333333336,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,1,0,Juvenile (3-6 months),cystoisospora_felis_coccidia,FALSE
+A321647,2025-06-08,0.25833333333333336,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,1,0,Juvenile (3-6 months),sarco_like,FALSE
+A321647,2025-06-08,0.25833333333333336,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,1,0,Juvenile (3-6 months),toxoplasma,FALSE
+A321768,2025-06-07,1.1861111111111111,Fixed,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A321768,2025-06-07,1.1861111111111111,Fixed,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A321768,2025-06-07,1.1861111111111111,Fixed,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A321768,2025-06-07,1.1861111111111111,Fixed,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A323391,2025-09-01,1.0944444444444446,Intact,female,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A323391,2025-09-01,1.0944444444444446,Intact,female,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A323391,2025-09-01,1.0944444444444446,Intact,female,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A323391,2025-09-01,1.0944444444444446,Intact,female,healthy,FALSE,unsocial,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A323413,2025-09-03,0.4,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,1,0,Juvenile (3-6 months),toxocara_roundworms,FALSE
+A323413,2025-09-03,0.4,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,1,0,Juvenile (3-6 months),cystoisospora_felis_coccidia,FALSE
+A323413,2025-09-03,0.4,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,1,0,Juvenile (3-6 months),sarco_like,FALSE
+A323413,2025-09-03,0.4,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,1,0,Juvenile (3-6 months),toxoplasma,FALSE
+A323434,2025-09-02,1.0944444444444446,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A323434,2025-09-02,1.0944444444444446,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A323434,2025-09-02,1.0944444444444446,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A323434,2025-09-02,1.0944444444444446,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A323496,2025-09-02,2.088888888888889,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A323496,2025-09-02,2.088888888888889,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A323496,2025-09-02,2.088888888888889,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A323496,2025-09-02,2.088888888888889,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A323535,2025-09-03,0.7833333333333333,Fixed,spayed_female,healthy,FALSE,social,TRUE,2,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A323535,2025-09-03,0.7833333333333333,Fixed,spayed_female,healthy,FALSE,social,TRUE,2,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,TRUE
+A323535,2025-09-03,0.7833333333333333,Fixed,spayed_female,healthy,FALSE,social,TRUE,2,0,0,Adult (> 6 months),sarco_like,TRUE
+A323535,2025-09-03,0.7833333333333333,Fixed,spayed_female,healthy,FALSE,social,TRUE,2,0,0,Adult (> 6 months),toxoplasma,FALSE
+A323653,2025-09-02,3.077777777777778,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A323653,2025-09-02,3.077777777777778,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A323653,2025-09-02,3.077777777777778,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A323653,2025-09-02,3.077777777777778,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A323682,2025-09-02,2.075,Fixed,neutered_male,sick,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A323682,2025-09-02,2.075,Fixed,neutered_male,sick,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A323682,2025-09-02,2.075,Fixed,neutered_male,sick,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A323682,2025-09-02,2.075,Fixed,neutered_male,sick,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A323692,2025-09-02,2.075,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A323692,2025-09-02,2.075,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A323692,2025-09-02,2.075,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,0,0,Adult (> 6 months),sarco_like,FALSE
+A323692,2025-09-02,2.075,Fixed,spayed_female,healthy,FALSE,social,FALSE,2,0,0,Adult (> 6 months),toxoplasma,FALSE
+A323815,2025-09-03,4.563888888888889,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A323815,2025-09-03,4.563888888888889,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A323815,2025-09-03,4.563888888888889,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A323815,2025-09-03,4.563888888888889,Fixed,spayed_female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A323859,2025-09-01,0.3888888888888889,Intact,female,other,FALSE,social,FALSE,2,1,0,Juvenile (3-6 months),toxocara_roundworms,FALSE
+A323859,2025-09-01,0.3888888888888889,Intact,female,other,FALSE,social,FALSE,2,1,0,Juvenile (3-6 months),cystoisospora_felis_coccidia,FALSE
+A323859,2025-09-01,0.3888888888888889,Intact,female,other,FALSE,social,FALSE,2,1,0,Juvenile (3-6 months),sarco_like,FALSE
+A323859,2025-09-01,0.3888888888888889,Intact,female,other,FALSE,social,FALSE,2,1,0,Juvenile (3-6 months),toxoplasma,FALSE
+A323922,2025-09-03,0.34444444444444444,Fixed,female,other,FALSE,social,TRUE,2,0,0,Juvenile (3-6 months),toxocara_roundworms,FALSE
+A323922,2025-09-03,0.34444444444444444,Fixed,female,other,FALSE,social,TRUE,2,0,0,Juvenile (3-6 months),cystoisospora_felis_coccidia,TRUE
+A323922,2025-09-03,0.34444444444444444,Fixed,female,other,FALSE,social,TRUE,2,0,0,Juvenile (3-6 months),sarco_like,FALSE
+A323922,2025-09-03,0.34444444444444444,Fixed,female,other,FALSE,social,TRUE,2,0,0,Juvenile (3-6 months),toxoplasma,FALSE
+A323924,2025-09-01,0.35555555555555557,Intact,unknown,other,FALSE,social,FALSE,2,0,0,Juvenile (3-6 months),toxocara_roundworms,FALSE
+A323924,2025-09-01,0.35555555555555557,Intact,unknown,other,FALSE,social,FALSE,2,0,0,Juvenile (3-6 months),cystoisospora_felis_coccidia,FALSE
+A323924,2025-09-01,0.35555555555555557,Intact,unknown,other,FALSE,social,FALSE,2,0,0,Juvenile (3-6 months),sarco_like,FALSE
+A323924,2025-09-01,0.35555555555555557,Intact,unknown,other,FALSE,social,FALSE,2,0,0,Juvenile (3-6 months),toxoplasma,FALSE
+A323932,2025-09-02,1.05,Fixed,female,other,FALSE,social,FALSE,2,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A323932,2025-09-02,1.05,Fixed,female,other,FALSE,social,FALSE,2,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A323932,2025-09-02,1.05,Fixed,female,other,FALSE,social,FALSE,2,0,0,Adult (> 6 months),sarco_like,FALSE
+A323932,2025-09-02,1.05,Fixed,female,other,FALSE,social,FALSE,2,0,0,Adult (> 6 months),toxoplasma,FALSE
+A323959,2025-09-02,0.2972222222222222,Intact,male,other,FALSE,social,FALSE,1,0,0,Juvenile (3-6 months),toxocara_roundworms,FALSE
+A323959,2025-09-02,0.2972222222222222,Intact,male,other,FALSE,social,FALSE,1,0,0,Juvenile (3-6 months),cystoisospora_felis_coccidia,FALSE
+A323959,2025-09-02,0.2972222222222222,Intact,male,other,FALSE,social,FALSE,1,0,0,Juvenile (3-6 months),sarco_like,FALSE
+A323959,2025-09-02,0.2972222222222222,Intact,male,other,FALSE,social,FALSE,1,0,0,Juvenile (3-6 months),toxoplasma,FALSE
+A323961,2025-09-02,0.4166666666666667,Fixed,female,other,FALSE,social,TRUE,1,0,0,Juvenile (3-6 months),toxocara_roundworms,FALSE
+A323961,2025-09-02,0.4166666666666667,Fixed,female,other,FALSE,social,TRUE,1,0,0,Juvenile (3-6 months),cystoisospora_felis_coccidia,TRUE
+A323961,2025-09-02,0.4166666666666667,Fixed,female,other,FALSE,social,TRUE,1,0,0,Juvenile (3-6 months),sarco_like,FALSE
+A323961,2025-09-02,0.4166666666666667,Fixed,female,other,FALSE,social,TRUE,1,0,0,Juvenile (3-6 months),toxoplasma,FALSE
+A323986,2025-09-02,0.3972222222222222,Intact,male,healthy,TRUE,social,TRUE,1,0,0,Juvenile (3-6 months),toxocara_roundworms,FALSE
+A323986,2025-09-02,0.3972222222222222,Intact,male,healthy,TRUE,social,TRUE,1,0,0,Juvenile (3-6 months),cystoisospora_felis_coccidia,TRUE
+A323986,2025-09-02,0.3972222222222222,Intact,male,healthy,TRUE,social,TRUE,1,0,0,Juvenile (3-6 months),sarco_like,FALSE
+A323986,2025-09-02,0.3972222222222222,Intact,male,healthy,TRUE,social,TRUE,1,0,0,Juvenile (3-6 months),toxoplasma,FALSE
+A324055,2025-09-01,2.036111111111111,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A324055,2025-09-01,2.036111111111111,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A324055,2025-09-01,2.036111111111111,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A324055,2025-09-01,2.036111111111111,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A324098,2025-09-01,3.3833333333333333,Fixed,spayed_female,healthy,FALSE,social,FALSE,0,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A324098,2025-09-01,3.3833333333333333,Fixed,spayed_female,healthy,FALSE,social,FALSE,0,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A324098,2025-09-01,3.3833333333333333,Fixed,spayed_female,healthy,FALSE,social,FALSE,0,0,0,Adult (> 6 months),sarco_like,FALSE
+A324098,2025-09-01,3.3833333333333333,Fixed,spayed_female,healthy,FALSE,social,FALSE,0,0,0,Adult (> 6 months),toxoplasma,FALSE
+A324103,2025-09-01,1.4972222222222222,Intact,female,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A324103,2025-09-01,1.4972222222222222,Intact,female,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,TRUE
+A324103,2025-09-01,1.4972222222222222,Intact,female,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A324103,2025-09-01,1.4972222222222222,Intact,female,healthy,FALSE,social,TRUE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A324110,2025-09-01,4.030555555555556,NA,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A324110,2025-09-01,4.030555555555556,NA,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A324110,2025-09-01,4.030555555555556,NA,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A324110,2025-09-01,4.030555555555556,NA,neutered_male,other,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A324181,2025-09-02,0.8527777777777777,Fixed,male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A324181,2025-09-02,0.8527777777777777,Fixed,male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A324181,2025-09-02,0.8527777777777777,Fixed,male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A324181,2025-09-02,0.8527777777777777,Fixed,male,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A324196,2025-09-01,11.027777777777779,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A324196,2025-09-01,11.027777777777779,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A324196,2025-09-01,11.027777777777779,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A324196,2025-09-01,11.027777777777779,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A324220,2025-09-02,1.0277777777777777,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A324220,2025-09-02,1.0277777777777777,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A324220,2025-09-02,1.0277777777777777,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A324220,2025-09-02,1.0277777777777777,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A324265,2025-09-02,1.025,Fixed,female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A324265,2025-09-02,1.025,Fixed,female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A324265,2025-09-02,1.025,Fixed,female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A324265,2025-09-02,1.025,Fixed,female,healthy,FALSE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A324329,2025-09-05,1.525,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxocara_roundworms,FALSE
+A324329,2025-09-05,1.525,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),cystoisospora_felis_coccidia,FALSE
+A324329,2025-09-05,1.525,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),sarco_like,FALSE
+A324329,2025-09-05,1.525,Fixed,spayed_female,healthy,TRUE,social,FALSE,1,0,0,Adult (> 6 months),toxoplasma,FALSE
+A324395,2025-09-05,NA,NA,unknown,sick,FALSE,unsocial,FALSE,0,0,0,NA,toxocara_roundworms,FALSE
+A324395,2025-09-05,NA,NA,unknown,sick,FALSE,unsocial,FALSE,0,0,0,NA,cystoisospora_felis_coccidia,FALSE
+A324395,2025-09-05,NA,NA,unknown,sick,FALSE,unsocial,FALSE,0,0,0,NA,sarco_like,FALSE
+A324395,2025-09-05,NA,NA,unknown,sick,FALSE,unsocial,FALSE,0,0,0,NA,toxoplasma,FALSE
+A324503,2025-09-01,0.3388888888888889,Intact,unknown,healthy,FALSE,unsocial,FALSE,0,0,0,Juvenile (3-6 months),toxocara_roundworms,FALSE
+A324503,2025-09-01,0.3388888888888889,Intact,unknown,healthy,FALSE,unsocial,FALSE,0,0,0,Juvenile (3-6 months),cystoisospora_felis_coccidia,FALSE
+A324503,2025-09-01,0.3388888888888889,Intact,unknown,healthy,FALSE,unsocial,FALSE,0,0,0,Juvenile (3-6 months),sarco_like,FALSE
+A324503,2025-09-01,0.3388888888888889,Intact,unknown,healthy,FALSE,unsocial,FALSE,0,0,0,Juvenile (3-6 months),toxoplasma,FALSE
+A324522,2025-09-01,0.25277777777777777,Intact,female,healthy,TRUE,social,TRUE,2,0,0,Juvenile (3-6 months),toxocara_roundworms,TRUE
+A324522,2025-09-01,0.25277777777777777,Intact,female,healthy,TRUE,social,TRUE,2,0,0,Juvenile (3-6 months),cystoisospora_felis_coccidia,FALSE
+A324522,2025-09-01,0.25277777777777777,Intact,female,healthy,TRUE,social,TRUE,2,0,0,Juvenile (3-6 months),sarco_like,FALSE
+A324522,2025-09-01,0.25277777777777777,Intact,female,healthy,TRUE,social,TRUE,2,0,0,Juvenile (3-6 months),toxoplasma,FALSE

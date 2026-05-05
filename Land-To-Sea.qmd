@@ -36,6 +36,8 @@ write_csv(parasites_google, file = "Data/data-raw/parasites_google.csv")
 
 parasites_google_clean <- janitor::clean_names(parasites_google)
 
+write_csv(parasites_google_clean, file = "Data/data-clean/parasites_google_clean.csv")
+
 ```
 
 
@@ -87,7 +89,7 @@ Ponazuril is effective against coccidia.  It should be given at 2-3 weeks of age
 
 
 ```{r}
-#| label: cleanup
+#| label: cleanup-for-grade
 
 parasites_google_clean <- parasites_google_clean |> 
   rowwise() |> 
@@ -336,6 +338,7 @@ longer_by_parasites <- parasites_google_clean |>
                cols = toxocara_roundworms: toxoplasma) |> 
   group_by(parasite_type) 
 
+write_csv(longer_by_parasites, file = "Data/data-clean/longer_by_parasites.csv")
   
 # graphic
  longer_by_parasites |> 
@@ -406,7 +409,7 @@ There were six cases positive for toxocara (10.7%).  Of these, two had never rec
 
 
 ```{r}
-#| label: roundworm-and-tx-graphic
+#| label: roundworm-and-tx-graphic-for-grade
 
 # Toxocara prevalence and Nemex treatment
 
@@ -448,7 +451,7 @@ Of the six cats positive for toxocara, four were adults (>6 months), one was a j
 
 
 ```{r}
-#| label: positive-roundworm-and-tx-by-age-group
+#| label: positive-roundworm-and-tx-by-age-group-for-grade
 
 parasites_google_clean |> 
   filter(
