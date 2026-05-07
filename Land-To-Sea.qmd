@@ -32,11 +32,12 @@ write_csv(parasites_google, file = "Data/data-raw/parasites_google.csv")
 
 ```{r}
 #| label: clean-names-of-sheets-version
+#| eval: false
 #| include: false
 
-parasites_google_clean <- janitor::clean_names(parasites_google)
+parasites_google_clean_1 <- janitor::clean_names(parasites_google)
 
-write_csv(parasites_google_clean, file = "Data/data-clean/parasites_google_clean.csv")
+write_csv(parasites_google_clean_1, file = "Data/data-clean/parasites_google_clean_1.csv")
 
 ```
 
@@ -87,17 +88,41 @@ Ponazuril is effective against coccidia.  It should be given at 2-3 weeks of age
 
 
 
+### Nemex Treatment Date Considerations
+
+The date that the animal received treatment relative to testing has an impact on the results.  The treatment protocol requires Nemex every two weeks to keep up with the toxocara lifecycle and ensure complete treatment.  As the time between Nemex increases, the efficacy of the deworming protocol decreases.  Given the shelter atmosphere (high population, limited resources), it felt appropriate to consider Nemex treatment concurrent if treatments were less than four weeks apart.  For more information on how treatment was considered, please read the <a href = "/treatment-considerations">treatment considerations page</a>.
+
+
+
 
 ```{r}
 #| label: cleanup-for-grade
+#| eval: false
+#| include: false
 
-parasites_google_clean <- parasites_google_clean |> 
+
+parasites_google_clean <- parasites_google_clean_1 |> 
+  mutate(temperament = fct_relevel(temperament, 
+                                   c("social", "unsocial", "unknown"))) |> 
+  mutate(across(c(collection_date, 
+                  nemex_1, 
+                  nemex_2, 
+                  nemex_3), 
+                as.Date)) |>
+  mutate(across(c(nemex_1, nemex_2, nemex_3), 
+                ~case_when(
+    is.na(.) ~ as.Date(NA),
+    # Only remove if the treatment was between 0 and 14 days BEFORE collection
+    (as.numeric(collection_date - .)) >= 0 & (as.numeric(collection_date - .)) < 14 ~ as.Date(NA),
+    TRUE ~ . 
+  ))) |>
+  
+  #used posit assistant to figure out how to do this so that if the treatment was less than fourteen days from the collection date, the treatment was not included
   rowwise() |> 
   mutate(nemex_dose_number = sum(!is.na(c_across(nemex_1:nemex_3))),
          ponazuril_dose_number = sum(!is.na(c_across(ponazuril_1:ponazuril_2))),
          panacur_dose_number = sum(!is.na(panacur_1))) |> 
   ungroup() |> 
-  
   select(a_id, 
          collection_date, 
          age_at_collection_yrs, 
@@ -111,6 +136,9 @@ parasites_google_clean <- parasites_google_clean |>
          sarco_like, 
          toxoplasma, 
          parasite, 
+         nemex_1,
+         nemex_2,
+         nemex_3,
          nemex_dose_number, 
          ponazuril_dose_number, 
          panacur_dose_number) |> 
@@ -122,14 +150,62 @@ parasites_google_clean <- parasites_google_clean |>
   filter(!is.na(toxocara_roundworms)) #do not include cases without results
 
 write_csv(parasites_google_clean, 
-          file = "Data/parasites_google_clean.csv")
+          file = "Data/data-clean/parasites_google_clean.csv")
 
 ```
 
+```{r}
+#| label: cleanup_1
+#| eval: false
+#| include: false
+
+# note: parasites_google_clean and parasites_google_clean_1 are very similar, but I wanted to have them separate, the main reason being that parasites_google_clean_1 has the nemex dates so I could use it for the treatment considerations page.  
+
+parasites_google_clean_1 <- parasites_google_clean_1 |> 
+    mutate(temperament = fct_relevel(temperament, 
+                                     c("social", "unsocial", "unknown"))) |> 
+rowwise() |> 
+  mutate(nemex_dose_number = sum(!is.na(c_across(nemex_1:nemex_3))),
+         ponazuril_dose_number = sum(!is.na(c_across(ponazuril_1:ponazuril_2))),
+         panacur_dose_number = sum(!is.na(panacur_1))) |> 
+  ungroup()
+
+write_csv(parasites_google_clean_1, 
+          file = "Data/data-clean/parasites_google_clean_1.csv")
+```
+
+```{r}
+#| label: lengthen-by-parasite-type
+#| eval: false
+#| include: false
+
+
+# lengthen by parasite type
+longer_by_parasites <- parasites_google_clean |> 
+  pivot_longer(names_to = "parasite_type",
+               values_to = "results", 
+               cols = toxocara_roundworms: toxoplasma) |> 
+  group_by(parasite_type) 
+
+write_csv(longer_by_parasites, file = "Data/data-clean/longer_by_parasites.csv")
+```
+
+
+```{r}
+#| label: read-in-data
+#| include: false
+
+parasites_google_clean_1 <- read_csv("Data/data-clean/parasites_google_clean_1.csv")
+
+parasites_google_clean <- read_csv("Data/data-clean/parasites_google_clean.csv")
+
+longer_by_parasites <- read_csv("Data/data-clean/longer_by_parasites.csv")
+```
 
 
 ```{r}
 #| label: parasites-result-reorder-function
+#| include: false
 
 parasite_results_reorder <- function(data, x) {
   data |> 
@@ -152,13 +228,9 @@ parasite_results_reorder <- function(data, x) {
 
 
 
-## Sample Demographics & Overview
-
-This sample includes 56 cats from the Santa Cruz County Animal Shelter.
-
-
 ```{r}
 #| label: sample-summarize-functions
+#| include: false
 
 
 # bar chart function 
@@ -179,9 +251,13 @@ sample_summarize_bar_chart <- function(data, x) { #include data
 }
 
 
-
-
 ```
+
+
+
+## Sample Demographics & Overview
+
+This sample includes 56 cats from the Santa Cruz County Animal Shelter.
 
 
 ### Age
@@ -353,16 +429,8 @@ sample_summarize_bar_chart(parasites_google_clean,
 There are currently no cases positive for toxoplasma.  The majority of positive test results are for Coccidia, followed by Roundworms.  16.1% of the cats tested positive for coccidia.   10.7% of the cats tested positive for roundworms. There were 17 total positive test results, though some of these results overlapped as they were from the same case.  (Figure 1, Table 1)
 
 ```{r}
-#| label: parasites-overview-graphic
+#| label: parasites-overview-graphic-for-grade
 
-# lengthen by parasite type
-longer_by_parasites <- parasites_google_clean |> 
-  pivot_longer(names_to = "parasite_type",
-               values_to = "results", 
-               cols = toxocara_roundworms: toxoplasma) |> 
-  group_by(parasite_type) 
-
-write_csv(longer_by_parasites, file = "Data/data-clean/longer_by_parasites.csv")
   
 # graphic
  longer_by_parasites |> 
@@ -433,7 +501,9 @@ The data from roundworms and coccidia were analyzed further.
 
 ## Roundworms
 
-There were six cases positive for toxocara (10.7%).  Of these, two had never received Nemex, two had received Nemex only once, and two had received Nemex two times. (Figure 2, Table 2)
+### Overview
+
+There were six cases positive for toxocara (10.7%).  Of these, five had never received Nemex and one had received Nemex only once. (Figure 2, Table 2)
 
 
 ```{r}
@@ -466,7 +536,7 @@ parasites_google_clean |>
   parasite_results_reorder(toxocara_roundworms) |> 
       tbl_summary(by = "toxocara_roundworms", 
                   include = "nemex_dose_number", 
-                  percent = "row",
+                  percent = "column",
                   label = list(nemex_dose_number ~ "Number of Nemex Doses Received"),#fixing the parasite type label
                   digits = list(all_categorical() ~ c(0, 1))) |> 
      add_overall(last = TRUE) |> #add column for overall
@@ -476,7 +546,12 @@ parasites_google_clean |>
 
 ```
 
-Of the six cats positive for toxocara, four were adults (>6 months), one was a juvenile (3-6 months), and one was unknown age.  The juvenile had completed two treatments of Nemex.  The unknown case had never received Nemex.  The adults were distributed among the three Nemex groups.  (Figure 3, Table 3)
+
+
+
+### Age
+
+Of the six cats positive for toxocara, four were adults (>6 months), one was a juvenile (3-6 months), and one was unknown age.  The juvenile and the unknown age cat had never received Nemex treatment.  Three of the adults never received Nemex while one received one single dose.  (Figure 3, Table 3)
 
 
 
@@ -534,6 +609,8 @@ modify_header(
 
 ## Coccidia
 
+### Overview
+
 There were negative test results for Coccidia among those who did and did not receive ponazuril, however, all of the positive cases did not receive ponazuril.  Nine of the 56 cats tested positive for Coccidia (16.1%).  All nine had never received ponazuril.  (Figure 4, Table 4)
 
 ```{r}
@@ -553,7 +630,7 @@ parasites_google_clean |>
                                "Positive")) + 
   labs (x = "Number of Ponazuril Doses Received", 
         y = "Number of Cats", 
-        title = "Figure 4. Positive Results for Coccidia and Ponazuril Treatment",
+        title = "Figure 4. Coccidia Results and Ponazuril Treatment",
         fill = "Cystoisospora felis (Coccidia) Result") 
   
 
@@ -574,7 +651,7 @@ parasites_google_clean |>
   tbl_summary(
     by = "cystoisospora_felis_coccidia", 
     include = "ponazuril_dose_number", 
-    percent = "row",
+    percent = "column",
     type = list(ponazuril_dose_number ~ "categorical"), #forcing numbers to be treated as rows
     label = list(ponazuril_dose_number ~ "Number of Ponazuril Doses Received"),
     digits = list(all_categorical() ~ c(0, 1))
@@ -587,10 +664,12 @@ parasites_google_clean |>
 
 ```{r}
 #| label: chi-square-coccidia
+#| include: false
 
 chisq.test(table(parasites_google_clean$ponazuril_dose_number, parasites_google_clean$cystoisospora_felis_coccidia))
 ```
 
+### Age
 
 Five of the positive cases for Coccidia were adult cats (> 6 months) who had never been treated, three were juvenile (3-6 months), and one was of unknown age.
 
@@ -653,37 +732,128 @@ modify_header(
 
 ## Unsocial Cat Specific Evaluation
 
+Unsocial cats are often quite unhandleable causing them to go without medical care, especially non-life-threatening care like deworming (when compared to wound management for example).  The SCCAS veterinarian has requested the exploration of how these unsocial cats have impacted the prior analysis.
+
+
+### Toxocara and Temperament
+
+
+  Ignoring the unknown temperament cats, the expectation that unsocial cats receive less treatment is consistent with the nemex doses provided as 80% of the unsocial cats did not receive any nemex.  Only two of the unsocial cats received nemex but they only received one dose.
+  Interestingly, only one of the unsocial cats was positive for toxocara.  Based on this data (with a very small sample size), social cats make up fast the majority of the positive results for toxocara.
+
+
 ```{r}
-#| label: unsocial-cat-eval
-#| eval: false
-#| include: false
+#| label: unsocial-cat-eval-toxocara
+
+
+# nemex dose numbers and temperament
+ 
+parasites_google_clean |> 
+  parasite_results_reorder(toxocara_roundworms) |> 
+    mutate(temperament = fct_relevel(temperament, 
+                                     c("social", "unsocial", "unknown"))) |> 
+  tbl_cross(
+    row = temperament,
+    col = nemex_dose_number,
+    percent = "cell",
+    label = list(
+      nemex_dose_number ~ "Nemex Doses",
+      temperament ~ "Temperament"
+    )
+  )|> 
+  bold_labels()
+
+
+# toxocara results and temperament
 
 parasites_google_clean |> 
-  filter(temperament == "unsocial") 
+    mutate(temperament = fct_relevel(temperament, 
+                                     c("social", "unsocial", "unknown"))) |> 
+  parasite_results_reorder(toxocara_roundworms) |> 
+  tbl_cross(
+    row = temperament,
+    col = toxocara_roundworms,
+    percent = "cell",
+    label = list(
+      toxocara_roundworms ~ "Toxocara (Roundworms)",
+      temperament ~ "Temperament"
+    )
+  ) |> 
+  bold_labels()
+ 
+
+```
+
+
+
+### Coccidia and Temperament
+
+
+ Ignoring the unknown temperament cats, the expectation that unsocial cats receive less treatment is consistent with ponazuril provided as 100% of the unsocial cats did not receive any ponazuril.  
+ All of the unsocial cats tested negative for Coccidia.  These cats made up 18% of the cats tested which is a noteable proportion.  This supports the conclusion that Coccidia is of less concern among unsocial cats than social cats.
   
-table(parasites_google_clean$toxocara_roundworms, parasites_google_clean$temperament)
+
+```{r}
+#| label: unsocial-cat-eval-coccidia
+
+
+# ponazuril dose and temperament
+
+parasites_google_clean |> 
+  parasite_results_reorder(cystoisospora_felis_coccidia) |> 
+    mutate(temperament = fct_relevel(temperament, 
+                                     c("social", "unsocial", "unknown"))) |> 
+  tbl_cross(
+    row = temperament,
+    col = ponazuril_dose_number,
+    percent = "cell",
+    label = list(
+      ponazuril_dose_number ~ "Ponazuril Doses",
+      temperament ~ "Temperament"
+    )
+  )|> 
+  bold_labels()
+
+
+
+# toxocara results and temperament
+
+parasites_google_clean |> 
+  parasite_results_reorder(cystoisospora_felis_coccidia) |> 
+    mutate(temperament = fct_relevel(temperament, 
+                                     c("social", "unsocial", "unknown"))) |> 
+  tbl_cross(
+    row = temperament,
+    col = cystoisospora_felis_coccidia,
+    percent = "cell",
+    label = list(
+      cystoisospora_felis_coccidia ~ "Coccidia",
+      temperament ~ "Temperament"
+    )
+  )|> 
+  bold_labels()
+
       
 ```
 
-```{r}
-#| eval: false
-#| include: false
-table(parasites_google_clean$cystoisospora_felis_coccidia, parasites_google_clean$temperament)
-```
 
-```{r}
-#| eval: false
-#| include: false
-table(parasites_google_clean$nemex_dose_number, parasites_google_clean$temperament)
+## Conclusion
 
-```
-
+  Both Toxocara (roundworms) and Coccidia are prevalent in the SCCAS population.  Of the animals tested, 10.7% tested positive for Toxocara (N = 6).  Of these, 83.3% (five of six) had never recieved nemex with the remaining animal only receiving nemex once.  Of the animals tested, 16.1% tested positive for Coccidia (N = 9).  All of the positive Coccidia cases never received ponazuril.  Based on the analysis alone, the treatment of Coccidia in adult cats via ponazuril should be added to the treatment protocol.  A cost-benefit analysis may be worthwhile to explore the other aspects of expanding the protocol.
+  
+  For both Toxocara and Coccidia, animals with complete treatment showed success, supporting the efficacy of the current treatment protocols when completed.  This study showed that these two parasites have a considerable presence among the shelter felines as well as exemplified the importance of complete treatment.  
 
 ## Discussion
 
-- Cats included in this study were selected to satisfy the Land To Sea sample requirements which aims to answer a different research question.  
-- The research protocol indicated only cats above two months of age to be included in the study, limiting the possibility of cats sampled to be within the "kitten" age group (< 3 months).  The kitten age group is especially relevant when considering the shift in the deworming protocol for cats at 12 weeks (3 months), so their lack of representation is noteworthy.
-- There was no randomness in the cases selected for the study.  As such, the sample is not representative of the population due to undercoverage bias.
+  Shelters often face staffing shortages and other resource challenges which impact how thorough deworming protocols are employed.  Nemex in particular, which requires two doses, poses an increased challenge as the animal must be sought out, reweighed, and then dosed.  The initial nemex dose and ponazuril are given at intake when an animal is easily accessible.
+  
+  The challenge is asking more of a group of staff that are already overworked and challenged.  That being said, hopefully, the results from this analysis can be communicated to shelter staff to emphasize the importance and impact of complete deworming.
+  
+  Cats included in this study were selected to satisfy the Land To Sea sample requirements which aims to answer a different research question, specifically selecting cases to maximize the possibility of Toxoplasma presence.  The research protocol indicated only cats above two months of age to be included in the study, limiting the possibility of cats sampled to be within the "kitten" age group (< 3 months).  The kitten age group is especially relevant when considering the shift in the deworming protocol for cats at 12 weeks (3 months), so their lack of representation is noteworthy.
+  
+  There was no randomness in the cases selected for the study.  As such, the sample is not representative of the population due to undercoverage bias.
+  
+  Questions about this analysis should be sent to sequoiafellenbaum@gmail.com.
 
 
 

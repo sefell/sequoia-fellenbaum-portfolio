@@ -1,0 +1,166 @@
+---
+title: "Treatment Considerations"
+author: "Sequoia Fellenbaum"
+---
+
+
+```{r}
+#| label: setup
+#| include: false
+
+
+library(tidyverse)
+library(gt)
+```
+
+
+```{r}
+#| label: read-in-data
+#| include: false
+
+parasites_google_clean_1 <- read_csv("Data/data-clean/parasites_google_clean_1.csv")
+
+parasites_google_clean <- read_csv("Data/data-clean/parasites_google_clean.csv")
+
+longer_by_parasites <- read_csv("Data/data-clean/longer_by_parasites.csv")
+```
+
+
+
+
+
+#############UPDATE ME###############
+
+A treatment on the same day as collection should not be considered a treatment as it does not allow the treatment adequate time.
+
+The following case, as an example, was considered to have had zero Nemex treatments.
+
+```{r}
+#| label: toxocara-date-adjustment
+
+parasites_google_clean_1 |> 
+ mutate(last = str_sub(a_id, -3, -1)) |> 
+  filter(
+    nemex_1 >= collection_date 
+  ) |> 
+    select(a_id,
+           last,
+         collection_date,
+         nemex_dose_number,
+         nemex_1,
+         nemex_2,
+         nemex_3) |> #select the columns
+  gt() |> 
+  cols_label(
+    last = "Last 3 of Animal ID",
+    collection_date = "Collection Date",
+    nemex_dose_number = "Nemex Dose Number",
+    nemex_1 =  "Nemex 1",
+    nemex_2 =  "Nemex 2",
+    nemex_3 = "Nemex 3"
+  ) #rename the columns
+
+  
+```
+
+This is how the animal showed up in the final dataset.
+
+```{r}
+parasites_google_clean |> 
+  filter(a_id == "A320012") |> 
+  mutate(last = str_sub(a_id, -3, -1)) |> 
+  select(last,
+         nemex_dose_number) |> 
+  gt() |> 
+  cols_label(
+    last = "Last 3 of Animal ID",
+    nemex_dose_number = "Nemex Dose Number")
+```
+
+
+
+Ideally, treatment is two weeks apart.  #### ADD MORE ###
+
+Only treatments that were less than 28 days apart were considered.  For example, if an animal was treated on 5/29/2025	and 8/5/2025 with sample collection on 9/3/2025, they were considered to be treated only once because the first treatment was over 28 days apart from the second treatment.
+
+Additionally, if treatment occurred less than two weeks before collection date, the animal would still be shedding toxocara and would therefore likely test positive.  To adjust for this, treatments administered less than fourteen days prior to collection date were excluded from the treatment count.
+
+As an example, the following shows one case with 32 days between Nemex doses.  This case was considered to only receive one Nemex treatment, not two.
+
+
+```{r}
+#| label: nemex-2-all
+
+
+parasites_google_clean_1 |> 
+
+  filter(
+    nemex_dose_number >= 2
+  ) |> 
+  mutate("days_between_nemex" = nemex_2-nemex_1,
+         last = str_sub(a_id, -3, -1)) |> 
+  relocate(last, .before = collection_date) |> 
+    select(last,
+    collection_date,
+         nemex_dose_number,
+         nemex_1,
+         nemex_2,
+         nemex_3,
+    days_between_nemex) |> 
+  gt() |> 
+  cols_label(
+    last = "Last 3 of Animal ID",
+    collection_date = "Collection Date",
+    nemex_dose_number = "Nemex Dose Number",
+    nemex_1 =  "Nemex 1",
+    nemex_2 =  "Nemex 2",
+    nemex_3 = "Nemex 3",
+    days_between_nemex = "Days Between Nemex 1 & 2"
+  ) #rename the columns
+
+  
+  
+```
+
+
+##### I'M LOOKING AT 2 DIFFERENT THINGS HERE... ONE IS COMPARING THE 2 NEMEX AND THE OTHER IS COMPARING THE MOST RECENT NEMEX WITH COLLECTION DATE #### NNEED TO FIX THAT
+
+```{r}
+parasites_google_clean |> 
+filter(
+    nemex_dose_number >= 2
+  ) |> 
+  mutate("days_between_nemex" = as.Date(nemex_2) - as.Date(nemex_1),
+         last = str_sub(a_id, -3, -1)) |> 
+  relocate(last, .before = collection_date) |> 
+    select(last,
+         nemex_dose_number,
+    days_between_nemex) |> 
+  gt() |> 
+  cols_label(
+    last = "Last 3 of Animal ID",
+    nemex_dose_number = "Nemex Dose Number",
+    days_between_nemex = "Days Between Nemex 1 & 2"
+  ) #rename the columns
+```
+
+
+```{r}
+#| label: nemex-2-collection-date-considered
+
+
+parasites_google_clean |> 
+  select(a_id,
+    collection_date,
+         nemex_dose_number,
+         nemex_1,
+         nemex_2,
+         nemex_3) |> 
+  filter(
+    nemex_dose_number >= 2
+  ) |> 
+  mutate("days_between_nemex" = nemex_2-nemex_1)
+```
+
+
+
