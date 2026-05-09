@@ -12,6 +12,8 @@ website:
         text: "About"      
       - href: Land-To-Sea.qmd
         text: "Land To Sea Analysis"
+      - href: Treatment-considerations.qmd
+        text: "Treatment Considerations"
 
 format:
   html:

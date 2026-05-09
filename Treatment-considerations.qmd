@@ -1,6 +1,9 @@
 ---
 title: "Treatment Considerations"
 author: "Sequoia Fellenbaum"
+format: html
+echo: false
+warning: false
 ---
 
 
@@ -26,14 +29,20 @@ longer_by_parasites <- read_csv("Data/data-clean/longer_by_parasites.csv")
 ```
 
 
+**A note about A numbers:** to keep track of animals, SCCAS assigns an animal (A) number (or ID) to each animal.  In the interest of protecting the animals, owners, and the shelter, these have been truncated to include only the last three digits of the number.  There is a *small* chance that there are duplicates in this explanation because the last three digits are not always unique, but this shouldn't impact the ability to get the idea across. 
 
 
+## Treatment
 
-#############UPDATE ME###############
+Each animal's medical record includes the date that an animal received treatment.  However, treatment date is not an isolated variable because the date of collection, time between treatments (if consecutive treatment is required), and time between treatment and collection impact the reliability of the analysis of treatment efficacy.
+
+These considerations leave room for interpretation so the specific guidelines and considerations have been outlined below accompanied by examples to further illustrate the implementation.
+
+### Same day treatment
 
 A treatment on the same day as collection should not be considered a treatment as it does not allow the treatment adequate time.
 
-The following case, as an example, was considered to have had zero Nemex treatments.
+**The following case, as an example, was considered to have had zero Nemex treatments.**
 
 ```{r}
 #| label: toxocara-date-adjustment
@@ -43,27 +52,25 @@ parasites_google_clean_1 |>
   filter(
     nemex_1 >= collection_date 
   ) |> 
-    select(a_id,
+    select(
            last,
          collection_date,
          nemex_dose_number,
          nemex_1,
-         nemex_2,
-         nemex_3) |> #select the columns
+         nemex_2) |> #select the columns
   gt() |> 
   cols_label(
     last = "Last 3 of Animal ID",
     collection_date = "Collection Date",
     nemex_dose_number = "Nemex Dose Number",
     nemex_1 =  "Nemex 1",
-    nemex_2 =  "Nemex 2",
-    nemex_3 = "Nemex 3"
+    nemex_2 =  "Nemex 2"
   ) #rename the columns
 
   
 ```
 
-This is how the animal showed up in the final dataset.
+**The animal's nemex dose number in the final dataset says zero.**
 
 ```{r}
 parasites_google_clean |> 
@@ -78,22 +85,21 @@ parasites_google_clean |>
 ```
 
 
+### Time between treatment
 
-Ideally, treatment is two weeks apart.  #### ADD MORE ###
+Ideally, treatment is two weeks apart to successfully remove all roundworms.  [Click here to learn more about the roundworm lifecyle and how it dictates deworming procedures.](#roundworm-lifecycle)
 
 Only treatments that were less than 28 days apart were considered.  For example, if an animal was treated on 5/29/2025	and 8/5/2025 with sample collection on 9/3/2025, they were considered to be treated only once because the first treatment was over 28 days apart from the second treatment.
 
 Additionally, if treatment occurred less than two weeks before collection date, the animal would still be shedding toxocara and would therefore likely test positive.  To adjust for this, treatments administered less than fourteen days prior to collection date were excluded from the treatment count.
 
-As an example, the following shows one case with 32 days between Nemex doses.  This case was considered to only receive one Nemex treatment, not two.
-
+The distance between doses and the time prior to collection are two different considerations that each animal underwent when preparing the data for analysis.  To explain this, **here is the original data for all animals that had two nemex doses before these considerations.**
 
 ```{r}
 #| label: nemex-2-all
 
 
 parasites_google_clean_1 |> 
-
   filter(
     nemex_dose_number >= 2
   ) |> 
@@ -105,7 +111,6 @@ parasites_google_clean_1 |>
          nemex_dose_number,
          nemex_1,
          nemex_2,
-         nemex_3,
     days_between_nemex) |> 
   gt() |> 
   cols_label(
@@ -114,7 +119,6 @@ parasites_google_clean_1 |>
     nemex_dose_number = "Nemex Dose Number",
     nemex_1 =  "Nemex 1",
     nemex_2 =  "Nemex 2",
-    nemex_3 = "Nemex 3",
     days_between_nemex = "Days Between Nemex 1 & 2"
   ) #rename the columns
 
@@ -122,10 +126,251 @@ parasites_google_clean_1 |>
   
 ```
 
+```{r}
+#| eval: false
+#| include: false
 
-##### I'M LOOKING AT 2 DIFFERENT THINGS HERE... ONE IS COMPARING THE 2 NEMEX AND THE OTHER IS COMPARING THE MOST RECENT NEMEX WITH COLLECTION DATE #### NNEED TO FIX THAT
+parasites_google_clean_1 |> 
+
+  filter(
+    nemex_dose_number >= 2
+  ) |> 
+  mutate("days_between_nemex" = nemex_2-nemex_1) |> 
+    select(a_id,
+    collection_date,
+         nemex_dose_number,
+         nemex_1,
+         nemex_2,
+    days_between_nemex) |> 
+  gt() |> 
+  cols_label(
+    collection_date = "Collection Date",
+    nemex_dose_number = "Nemex Dose Number",
+    nemex_1 =  "Nemex 1",
+    nemex_2 =  "Nemex 2",
+    days_between_nemex = "Days Between Nemex 1 & 2"
+  ) #rename the columns
+
+  
+```
+
+
+The animal with the A number ending with 576 showed 32 days between nemex doses, so this cat was adjusted so that it was considered to only have one dose of nemex.
+
+**Before adjustment:**
 
 ```{r}
+#| label: nemex-days-between-before
+
+
+parasites_google_clean_1 |> 
+filter(
+    a_id == "A320576"
+  ) |> 
+mutate(last = str_sub(a_id, -3, -1),
+       "days_between_nemex" = nemex_2-nemex_1) |>
+  select(last,
+    collection_date,
+         nemex_dose_number,
+         nemex_1,
+         nemex_2,
+    days_between_nemex) |> 
+  gt() |> 
+  cols_label(
+    last = "Last 3 of Animal ID",
+    collection_date = "Collection Date",
+    nemex_dose_number = "Nemex Dose Number",
+    nemex_1 =  "Nemex 1",
+    nemex_2 =  "Nemex 2",
+    days_between_nemex = "Days Between Nemex 1 & 2"
+  ) #rename the columns
+
+```
+
+
+
+**After adjustment:**
+
+
+```{r}
+#| label: nemex-days-between-after
+
+
+parasites_google_clean |> 
+filter(
+    a_id == "A320576"
+  ) |> 
+mutate(last = str_sub(a_id, -3, -1),
+       "days_between_nemex" = nemex_2-nemex_1) |>
+  select(last,
+    collection_date,
+         nemex_dose_number,
+         nemex_1,
+         nemex_2,
+    days_between_nemex) |> 
+  gt() |> 
+  cols_label(
+    last = "Last 3 of Animal ID",
+    collection_date = "Collection Date",
+    nemex_dose_number = "Nemex Dose Number",
+    nemex_1 =  "Nemex 1",
+    nemex_2 =  "Nemex 2",
+    days_between_nemex = "Days Between Nemex 1 & 2"
+  ) #rename the columns
+```
+
+### Treatment prior to collection date
+
+Then, the treatment prior to collection date was considered.  If an animal was treated with nemex 14 days within collection date, this treatment was ignored.
+
+To illustrate this, let's look at two different cases:
+
+**Before adjustment:**
+
+```{r}
+#| label: nemex-days-prior-before
+
+
+parasites_google_clean_1 |> 
+filter(
+    a_id == "A323413"| 
+    a_id == "A320907"
+  ) |> 
+mutate(last = str_sub(a_id, -3, -1),
+       "days_between_nemex" = nemex_2-nemex_1) |>
+  select(last,
+    collection_date,
+         nemex_dose_number,
+         nemex_1,
+         nemex_2,
+    days_between_nemex) |> 
+  gt() |> 
+  cols_label(
+    last = "Last 3 of Animal ID",
+    collection_date = "Collection Date",
+    nemex_dose_number = "Nemex Dose Number",
+    nemex_1 =  "Nemex 1",
+    nemex_2 =  "Nemex 2",
+    days_between_nemex = "Days Between Nemex 1 & 2"
+  ) #rename the columns
+```
+
+
+
+**After adjustment:**
+
+
+```{r}
+#| label: nemex-days-prior-after
+
+
+parasites_google_clean |> 
+filter(
+    a_id == "A323413"| 
+    a_id == "A320907"
+  ) |> 
+mutate(last = str_sub(a_id, -3, -1),
+       "days_between_nemex" = nemex_2-nemex_1) |>
+  select(last,
+    collection_date,
+         nemex_dose_number,
+         nemex_1,
+         nemex_2,
+    days_between_nemex) |> 
+  gt() |> 
+  cols_label(
+    last = "Last 3 of Animal ID",
+    collection_date = "Collection Date",
+    nemex_dose_number = "Nemex Dose Number",
+    nemex_1 =  "Nemex 1",
+    nemex_2 =  "Nemex 2",
+    days_between_nemex = "Days Between Nemex 1 & 2"
+  ) #rename the columns
+```
+
+The case `r 413` had the second nemex dose more than 14 days before the collection date, so it was considered to have gotten nemex twice.  However, the case `r 907` had the second nemex dose less than 14 days from the collection date, so the nemex dose number was adjusted from two to one.
+
+### Putting it all together
+
+**To wrap it up, let's look at the original list of animals with more than two nemex doses.**
+
+
+```{r}
+#| label: summary-original-1
+parasites_google_clean_1 |> 
+  filter(
+    nemex_dose_number >= 2
+  ) |> 
+  mutate("days_between_nemex" = nemex_2-nemex_1,
+         last = str_sub(a_id, -3, -1)) |> 
+  relocate(last, .before = collection_date) |> 
+    select(last,
+    collection_date,
+         nemex_dose_number,
+         nemex_1,
+         nemex_2,
+    days_between_nemex) |> 
+  gt() |> 
+  cols_label(
+    last = "Last 3 of Animal ID",
+    collection_date = "Collection Date",
+    nemex_dose_number = "Nemex Dose Number",
+    nemex_1 =  "Nemex 1",
+    nemex_2 =  "Nemex 2",
+    days_between_nemex = "Days Between Nemex 1 & 2"
+  ) #rename the columns
+
+```
+
+
+**Here's how the same list looks with the considerations mentioned:**
+
+
+```{r}
+#| label: summary-adjusted-1
+
+
+parasites_google_clean |> 
+  filter(
+    a_id == "A320406" |
+      a_id == "A320576" |
+      a_id == "A320907" |
+      a_id == "A323413" |
+      a_id == "A323535" |
+      a_id == "A323692" |
+      a_id == "A323859" |
+      a_id == "A323922" |
+      a_id == "A323924" |
+      a_id == "A323932"
+  ) |> 
+  mutate("days_between_nemex" = nemex_2-nemex_1,
+         last = str_sub(a_id, -3, -1)) |> 
+  relocate(last, .before = collection_date) |> 
+    select(last,
+    collection_date,
+         nemex_dose_number,
+         nemex_1,
+         nemex_2,
+    days_between_nemex) |> 
+  gt() |> 
+  cols_label(
+    last = "Last 3 of Animal ID",
+    collection_date = "Collection Date",
+    nemex_dose_number = "Nemex Dose Number",
+    nemex_1 =  "Nemex 1",
+    nemex_2 =  "Nemex 2",
+    days_between_nemex = "Days Between Nemex 1 & 2"
+  ) #rename the columns
+
+```
+
+**So just looking at the ones with two nemex doses leaves us with only two cases:**
+
+
+```{r}
+#| label: summary-adjusted-and-2-nemex-1
+
+
 parasites_google_clean |> 
 filter(
     nemex_dose_number >= 2
@@ -134,7 +379,9 @@ filter(
          last = str_sub(a_id, -3, -1)) |> 
   relocate(last, .before = collection_date) |> 
     select(last,
+           collection_date,
          nemex_dose_number,
+                   nemex_2,
     days_between_nemex) |> 
   gt() |> 
   cols_label(
@@ -144,23 +391,50 @@ filter(
   ) #rename the columns
 ```
 
+## Summary
+
+To summarize the changes, here's how the nemex dose counts differed before and after the considerations discussed above.
+
+**Before:**
 
 ```{r}
-#| label: nemex-2-collection-date-considered
+#| label: summary-original-2
+
+
+parasites_google_clean_1 |> 
+  group_by(nemex_dose_number) |> 
+  summarize(Count = n()) |> 
+  gt() |> 
+  cols_label(
+    nemex_dose_number = "Number of Nemex Doses"
+  ) |> 
+  tab_header(
+    title = "Total Nemex Doses Before Adjustments"
+  )
+
+```
+
+
+**After:** 
+
+```{r}
+#| label: summary-adjusted-2
 
 
 parasites_google_clean |> 
-  select(a_id,
-    collection_date,
-         nemex_dose_number,
-         nemex_1,
-         nemex_2,
-         nemex_3) |> 
-  filter(
-    nemex_dose_number >= 2
+  group_by(nemex_dose_number) |> 
+  summarize(Count = n()) |> 
+  gt() |> 
+  cols_label(
+    nemex_dose_number = "Number of Nemex Doses"
   ) |> 
-  mutate("days_between_nemex" = nemex_2-nemex_1)
+  tab_header(
+    title = "Total Nemex Doses After Adjustments"
+  )
+
 ```
 
+
+## Roundworm Lifecycle
 
 
