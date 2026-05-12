@@ -437,4 +437,7 @@ parasites_google_clean |>
 
 ## Roundworm Lifecycle
 
+*Toxocara cati* is the species of roundworm specific to felines.  When de-worming medication is ingested, the adult worms are killed and cleared from the intestine.  Unfortantely, these medications only target adult roundworms, leaving behind larvae.  This is why repeat treatment is necessary to ensure complete removal of roundworms from the felines intestinal tract. (<a href = "https://veterinarypartner.vin.com/default.aspx?pid=19239&id=4951385"> Learn more </a>)
+
+![The lifecycle of roundworms in cats. (<a href = "https://todaysveterinarypractice.com/parasitology/toxocara-cati-infection-in-cats/"</a>)](Feline_Roundworm_Lifecycle.png)
 

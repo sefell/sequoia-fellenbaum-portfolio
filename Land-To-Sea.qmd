@@ -440,7 +440,8 @@ There are currently no cases positive for toxoplasma.  The majority of positive 
   theme_bw() +
      scale_fill_brewer(palette = "Greens", 
                        na.value = "#dbdbdb",
-                       labels = c("Negative", "Positive")) +
+                       labels = c("Negative", 
+                                  "Positive")) +
    labs(x = "Parasite", 
         y = "Counts",
         title = "Figure 1: Results per Parasite",
@@ -562,7 +563,7 @@ parasites_google_clean |>
   filter(
          toxocara_roundworms == TRUE,
            !is.na(toxocara_roundworms)) |> 
- ggplot(mapping = aes(nemex_dose_number, 
+ ggplot(mapping = aes(x = factor(nemex_dose_number), 
                       fill = age_group)) +
   geom_bar(position = "stack") +
 theme_bw() +
@@ -575,7 +576,6 @@ theme_bw() +
         y = "Positive Roundworms Cases", 
         title = "Figure 3. Positive Roundworms Cases and Nemex Treatment By Age Group",
         fill = "Age Group") 
-  
 ```
 
 
@@ -584,6 +584,8 @@ theme_bw() +
 
 
 parasites_google_clean |>
+  filter(age_group != "Kitten") |> 
+  mutate(age_group = factor(age_group)) |>
   select(toxocara_roundworms, 
          nemex_dose_number, 
          age_group) |> 
@@ -619,7 +621,7 @@ There were negative test results for Coccidia among those who did and did not re
 # Coccidia prevalence and ponazuril treatment
 
 parasites_google_clean |> 
-  ggplot(mapping = aes(x = ponazuril_dose_number, 
+  ggplot(mapping = aes(x = factor(ponazuril_dose_number), 
                        fill = cystoisospora_felis_coccidia)) +
   geom_bar(position = "stack") +
   #scale_y_continuous(labels = scales::label_percent()) + 
@@ -689,7 +691,6 @@ parasites_google_clean |>
                       fill = age_group)) +
   geom_bar() +
 theme_bw() +
-  scale_x_discrete(drop = FALSE) +
   scale_fill_brewer(palette = "Greens", 
                     na.value = "#dbdbdb",
                     labels = c("Adult", 
@@ -755,7 +756,7 @@ parasites_google_clean |>
   tbl_cross(
     row = temperament,
     col = nemex_dose_number,
-    percent = "cell",
+    percent = "row",
     label = list(
       nemex_dose_number ~ "Nemex Doses",
       temperament ~ "Temperament"
@@ -773,7 +774,7 @@ parasites_google_clean |>
   tbl_cross(
     row = temperament,
     col = toxocara_roundworms,
-    percent = "cell",
+    percent = "row",
     label = list(
       toxocara_roundworms ~ "Toxocara (Roundworms)",
       temperament ~ "Temperament"
@@ -806,7 +807,7 @@ parasites_google_clean |>
   tbl_cross(
     row = temperament,
     col = ponazuril_dose_number,
-    percent = "cell",
+    percent = "row",
     label = list(
       ponazuril_dose_number ~ "Ponazuril Doses",
       temperament ~ "Temperament"
@@ -825,7 +826,7 @@ parasites_google_clean |>
   tbl_cross(
     row = temperament,
     col = cystoisospora_felis_coccidia,
-    percent = "cell",
+    percent = "row",
     label = list(
       cystoisospora_felis_coccidia ~ "Coccidia",
       temperament ~ "Temperament"
