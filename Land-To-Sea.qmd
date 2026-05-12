@@ -42,6 +42,7 @@ write_csv(parasites_google_clean_1, file = "Data/data-clean/parasites_google_cle
 ```
 
 
+
 ## Background - The Study
 
 Land To Sea is an extension of a previous research study investigating the presence of *toxoplasma gondii* in Monterey Bay.  The study has been picked up again by grad students at UC Davis.  Cats are the definitive host for *toxoplasma gondii*, which is shed via oocytes in their feces.  The feces may be consumed directly or the oocytes can travel through the waterway to food sources, finding their way to various animals including otters and cows.  The Land To Sea study is investigating the connections between these animals by looking at the waterway in conjunction with animals.  The original study publication can be viewed <a href="https://pubmed.ncbi.nlm.nih.gov/27456911/">here</a>.
@@ -854,7 +855,9 @@ parasites_google_clean |>
   
   There was no randomness in the cases selected for the study.  As such, the sample is not representative of the population due to undercoverage bias.
   
-  Questions about this analysis should be sent to sequoiafellenbaum@gmail.com.
+  
+  
+> Questions about this analysis should be sent to sequoiafellenbaum@gmail.com.
 
 
 
